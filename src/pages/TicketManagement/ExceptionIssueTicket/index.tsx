@@ -25,6 +25,7 @@ const ExceptionIssueTicket: React.FC = () => {
             title: "异常问题类型",
             dataIndex: 'issueType',
             ellipsis: false,
+            width: 150,
             valueEnum: {
                 1: {
                     text: "我的音视频卡",
@@ -51,6 +52,7 @@ const ExceptionIssueTicket: React.FC = () => {
         {
             title: "处理状态",
             dataIndex: 'status',
+            width: 150,
             valueEnum: {
                 1: {
                     text: "待认领",
@@ -82,54 +84,62 @@ const ExceptionIssueTicket: React.FC = () => {
             title: "异常问题描述",
             dataIndex: 'issueDescription',
             valueType: 'textarea',
+            width: 150
         },
         {
             title: "提交时间",
             dataIndex: 'submissionTime',
             valueType: 'textarea',
             search: false,
+            width: 150
         },
         {
             title: "提交人",
             dataIndex: 'submitter',
             valueType: 'textarea',
             search: false,
+            width: 100
         },
         {
             title: "主播信息",
             dataIndex: 'anchorInfo',
             valueType: 'textarea',
             search: false,
-
+            width: 150
         },
         {
             title: "观众信息",
             dataIndex: 'audienceInfo',
             valueType: 'textarea',
             search: false,
+            width: 150
         },
         {
             title: "教室信息",
             dataIndex: 'classroomInfo',
             valueType: 'textarea',
             search: false,
+            width: 150
         },
         {
             title: "图片",
             dataIndex: 'image',
             valueType: 'image',
             search: false,
+            width: 80
         },
         {
             title: "处理人",
             dataIndex: 'handler',
             valueType: 'textarea',
             search: false,
+            width: 100
         },
         {
             title: "备注",
             dataIndex: 'remarks',
             valueType: 'textarea',
+            width: 150,
             search: false,
         },
         {
@@ -179,6 +189,7 @@ const ExceptionIssueTicket: React.FC = () => {
                 </Space>}
                 actionRef={actionRef}
                 rowKey="key"
+                size="small"
                 scroll={{ x: 1000 }}
                 search={{
                     labelWidth: 100,

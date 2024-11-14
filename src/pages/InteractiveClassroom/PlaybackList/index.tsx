@@ -86,36 +86,18 @@ const PlaybackList: React.FC = () => {
         },
     ];
 
-    const handleRecycleBin = () => {
 
-    }
     return (
         <PageContainer>
             <ProTable<PlaybackListMockData, API.PageParams>
-                headerTitle={<Space>
-                    <Radio.Group buttonStyle="solid" value={position} onChange={(e) => setPosition(e.target.value)}>
-                        <Radio.Button value="start"> 常规录制</Radio.Button>
-                        <Radio.Button value="end"> MP4录制</Radio.Button>
-                    </Radio.Group>
-                </Space>}
+                headerTitle={"回放查询"}
                 actionRef={actionRef}
                 rowKey="key"
                 search={{
                     labelWidth: 80,
                     defaultCollapsed: false,
-
                 }}
-                toolBarRender={() => [
-
-                    <Button
-                        key="info"
-                        onClick={() => {
-                            handleRecycleBin();
-                        }}
-                    >
-                        录制件回收站
-                    </Button>,
-                ]}
+                size="small"
                 options={{
                     setting: false,
                     density: false,

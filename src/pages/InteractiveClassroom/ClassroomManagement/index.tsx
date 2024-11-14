@@ -165,6 +165,7 @@ const TableList: React.FC = () => {
                     id: 'pages.searchTable.title',
                     defaultMessage: 'Enquiry form',
                 })}
+                size="small"
                 actionRef={actionRef}
                 rowKey="classroomId"
                 search={{

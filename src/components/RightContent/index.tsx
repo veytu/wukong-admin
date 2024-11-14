@@ -5,13 +5,14 @@ import React from 'react';
 export type SiderTheme = 'light' | 'dark';
 
 export const SelectLang = () => {
-  return (
-    <UmiSelectLang
-      style={{
-        padding: 4,
-      }}
-    />
-  );
+  // return (
+  //   <UmiSelectLang
+  //     style={{
+  //       padding: 4,
+  //     }}
+  //   />
+  // );
+  return null
 };
 
 export const Question = () => {
@@ -25,7 +26,7 @@ export const Question = () => {
         window.open('https://www.yuque.com/alpsyu/yw159r');
       }}
     >
-      <QuestionCircleOutlined />
+      {/* <QuestionCircleOutlined /> */}
     </div>
   );
 };
