@@ -1,553 +1,133 @@
-import type { ProHelpDataSourceChildren } from '@ant-design/pro-components';
-import { PageContainer, ProHelp, ProHelpPanel } from '@ant-design/pro-components';
-import { Typography } from 'antd';
-
+import React, { useState } from 'react';
+import { Layout, Menu, MenuProps, message, Form, Switch, Radio, InputNumber, Button, Typography } from 'antd';
+import {
+    SettingOutlined,
+    DatabaseOutlined,
+} from '@ant-design/icons';
+import { PageContainer } from '@ant-design/pro-components';
+import bubble_style from '@/assets/bubble_style.png';
+const { Sider, Content } = Layout;
 
 const GeneralSettings: React.FC = () => {
-    const map = new Map<
-        string,
-        (
-            item: ProHelpDataSourceChildren<{
-                video: React.VideoHTMLAttributes<HTMLVideoElement>;
-                list: {
-                    title: string;
-                    children: {
-                        title: string;
-                        href: string;
-                    }[];
-                };
-            }>,
-            index: number,
-        ) => React.ReactNode
-    >();
+    const { Text } = Typography;
+    type MenuItem = Required<MenuProps>['items'][number];
+    const [autoDismiss, setAutoDismiss] = useState(true);
+    const [style, setStyle] = useState<'bubble' | 'modal'>('bubble');
+    const [extendTime, setExtendTime] = useState(20);
 
-    map.set('video', (item) => {
-        return (
-            <video
-                key=""
-                style={{
-                    width: '100%',
-                }}
-                controls
-                {...(item.children as React.VideoHTMLAttributes<HTMLVideoElement>)}
-            />
-        );
-    });
-
-    map.set('list', (item) => {
-        const listConfig = item.children as {
-            title: string;
-            children: {
-                title: string;
-                href: string;
-            }[];
-        };
-        return (
-            <div>
-                <h3
-                    style={{
-                        margin: '8px 0',
-                    }}
-                >
-                    {listConfig.title}
-                </h3>
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 8,
-                    }}
-                >
-                    {listConfig.children.map((child, index) => {
-                        return (
-                            <div key={index}>
-                                <Typography.Text>
-                                    {child.href ? (
-                                        <a href={child.href}>{child.title}</a>
-                                    ) : (
-                                        child.title
-                                    )}
-                                </Typography.Text>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        );
-    });
-    const resource = [
+    const items: MenuItem[] = [
         {
-            title: '常见问题',
-            key: 'default',
+            key: 'sub2',
+            label: '教室管理',
+            icon: <SettingOutlined />,
             children: [
-                {
-                    title: '如何开始操作？',
-                    key: '1',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '如何开始操作数据授权？',
-                        },
-                        {
-                            valueType: 'text',
-                            children: `需要进行数据合作的数据提供方（数据源）和数据需求方双方都需要先安装部署`,
-                        },
-                        {
-                            valueType: 'inlineLink',
-                            children: {
-                                href: 'https://www.alipay.com',
-                                children: '摩斯产品',
-                            },
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '节点。并将各自的摩斯计算节点、子账号等的版本信息、业务需求、数据量级（几行几列）等信息同步给到摩斯产运负责人。',
-                        },
-                        {
-                            valueType: 'image',
-                            children: {
-                                src: '',
-                                style: {
-                                    maxWidth: 600,
-                                },
-                            },
-                        },
-                        {
-                            valueType: 'text',
-                            children: `需要进行数据合作的数据提供方（数据源）和数据需求方双方都需要先安装部署`,
-                        },
-                        {
-                            valueType: 'inlineLink',
-                            children: {
-                                href: 'https://www.alipay.com',
-                                children: '摩斯产品',
-                            },
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '节点。并将各自的摩斯计算节点、子账号等的版本信息、业务需求、数据量级（几行几列）等信息同步给到摩斯产运负责人。',
-                        },
-                        {
-                            valueType: 'image',
-                            children: {
-                                src: '',
-                                style: {
-                                    maxWidth: 600,
-                                },
-                            },
-                        },
-                        {
-                            valueType: 'text',
-                            children: `需要进行数据合作的数据提供方（数据源）和数据需求方双方都需要先安装部署`,
-                        },
-                        {
-                            valueType: 'inlineLink',
-                            children: {
-                                href: '',
-                                children: '摩斯产品',
-                            },
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '节点。并将各自的摩斯计算节点、子账号等的版本信息、业务需求、数据量级（几行几列）等信息同步给到摩斯产运负责人。',
-                        },
-                        {
-                            valueType: 'image',
-                            children: {
-                                src: '',
-                                style: {
-                                    maxWidth: 600,
-                                },
-                            },
-                        },
-                        {
-                            valueType: 'h2',
-                            children: '相关问题',
-                        },
-                        {
-                            valueType: 'link',
-                            children: {
-                                href: 'www.alipay.com',
-                                children: '鹊凿平台DCI申领操作手册?',
-                            },
-                        },
-                        {
-                            valueType: 'link',
-                            children: {
-                                href: 'www.alipay.com',
-                                children: 'openAPI 注册工具?',
-                            },
-                        },
-
-                        {
-                            valueType: 'h2',
-                            children: '帮助视频',
-                        },
-                        {
-                            valueType: 'video',
-                            children: {
-                                src: '',
-                            },
-                        },
-                    ],
-                },
-                {
-                    title: '证据包内包含',
-                    key: '2',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '证据包内包含哪些内容，如何下载证据包？',
-                        },
-                        {
-                            valueType: 'text',
-                            children: `需要进行数据合作的数据提供方（数据源）和数据需求方双方都需要先安装部署`,
-                        },
-                        {
-                            valueType: 'inlineLink',
-                            children: {
-                                href: 'https://www.alipay.com',
-                                children: '摩斯产品',
-                            },
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '节点。并将各自的摩斯计算节点、子账号等的版本信息、业务需求、数据量级（几行几列）等信息同步给到摩斯产运负责人。',
-                        },
-                        {
-                            valueType: 'image',
-                            children: {
-                                src: '',
-                                style: {
-                                    maxWidth: 600,
-                                },
-                            },
-                        },
-                        {
-                            valueType: 'text',
-                            children: `需要进行数据合作的数据提供方（数据源）和数据需求方双方都需要先安装部署`,
-                        },
-                        {
-                            valueType: 'inlineLink',
-                            children: {
-                                href: 'https://www.alipay.com',
-                                children: '摩斯产品',
-                            },
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '节点。并将各自的摩斯计算节点、子账号等的版本信息、业务需求、数据量级（几行几列）等信息同步给到摩斯产运负责人。',
-                        },
-                        {
-                            valueType: 'image',
-                            children: {
-                                src: '',
-                                style: {
-                                    maxWidth: 600,
-                                },
-                            },
-                        },
-                        {
-                            valueType: 'text',
-                            children: `需要进行数据合作的数据提供方（数据源）和数据需求方双方都需要先安装部署`,
-                        },
-                        {
-                            valueType: 'inlineLink',
-                            children: {
-                                href: 'https://www.alipay.com',
-                                children: '摩斯产品',
-                            },
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '节点。并将各自的摩斯计算节点、子账号等的版本信息、业务需求、数据量级（几行几列）等信息同步给到摩斯产运负责人。',
-                        },
-                        // @ts-expect-error
-                        {
-                            children:
-                                '节点。并将各自的摩斯计算节点、子账号等的版本信息、业务需求、数据量级（几行几列）等信息同步给到摩斯产运负责人。',
-                        },
-                        {
-                            valueType: 'image',
-                            children: {
-                                src: '',
-                                style: {
-                                    maxWidth: 600,
-                                },
-                            },
-                        },
-                        {
-                            valueType: 'list',
-                            children: {
-                                title: '相关问题',
-                                children: [
-                                    {
-                                        href: 'www.alipay.com',
-                                        title: '鹊凿平台DCI申领操作手册?',
-                                    },
-                                    {
-                                        href: 'www.alipay.com',
-                                        title: 'openAPI 注册工具?',
-                                    },
-                                ],
-                            },
-                        },
-                    ],
-                },
+                { key: '5', label: '上下课设置' },
+                // { key: '6', label: '房间设置' },
+                // { key: '7', label: '开播前设置', },
+                // { key: '8', label: '自定义聊天话术' },
+                // { key: '9', label: '分享' },
+                // { key: '10', label: '求助设置' },
+                // { key: '11', label: '功能开关', },
+                // { key: '12', label: '奖励称号' },
             ],
         },
         {
-            title: '名词解释',
-            key: 'value',
-            infiniteScrollFull: true,
+            key: 'sub4',
+            label: '系统设置',
+            icon: <DatabaseOutlined />,
             children: [
-                {
-                    title: '数据管理（模块）',
-                    key: 'name0',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '数据管理（模块）',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '这是一个用于管理和处理数据的模块，它提供了一套工具来帮助用户进一步管理域内的数据。用户可以使用数据管理模块来管理数据、处理数据以及保护数据。',
-                        },
-                    ],
-                },
-                {
-                    title: '网页上传方式',
-                    key: 'name1',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '网页上传方式',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '一种网页提供给用户的上传文件方法，用户可以通过网页上传自己的文件进行处理。',
-                        },
-                    ],
-                },
-                {
-                    title: '其他获取方式',
-                    key: 'name2',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '其他获取方式',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '即不通过网页上传的方式获取数据，例如从数据库、文件夹或其他数据源中获取数据。',
-                        },
-                    ],
-                },
-                {
-                    title: '数据字典',
-                    key: 'name3',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '数据字典',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '一个固定格式的数据说明书，它包含了所有数据元素的定义和说明，以及它们的定义和格式。',
-                        },
-                    ],
-                },
-                {
-                    title: '项目空间（模块）',
-                    key: 'name4',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '项目空间(模块)',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '这是一个用于存储和管理一组相关数据和文档的模块。在项目空间中，用户可以创建文件夹、上传文件、管理文件等操作。',
-                        },
-                    ],
-                },
-                {
-                    title: '项目合作方',
-                    key: 'name5',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '项目合作方',
-                        },
-                        {
-                            valueType: 'text',
-                            children: '与用户进行数据合作的外部组织或个人。',
-                        },
-                    ],
-                },
-                {
-                    title: '项目数据资源',
-                    key: 'name6',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '项目数据资源',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '在一个项目中产生或收集的所有数据资源，包括原始数据、处理数据、文档和元数据等。',
-                        },
-                    ],
-                },
-                {
-                    title: '离线批量数据',
-                    key: 'name7',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '离线批量数据',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '一种离线处理数据的方式，用户将需要处理的数据批量上传到系统中，再通过系统进行处理。',
-                        },
-                        {
-                            valueType: 'text',
-                            children: '相关数据请查看：',
-                        },
-                        {
-                            valueType: 'navigationSwitch',
-                            children: {
-                                selectKey: 'name9',
-                                children: '节点场景',
-                            },
-                        },
-                    ],
-                },
-                {
-                    title: '线上服务数据',
-                    key: 'name8',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '线上服务数据',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '一种在线处理数据的方式，用户通过在线提交数据并调用相应的处理程序进行数据处理。',
-                        },
-                    ],
-                },
-                {
-                    title: '节点场景',
-                    key: 'name9',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '节点场景',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '一个由多个节点组成的场景，每个节点都有不同的特征和功能，相互之间可以通信和互动。',
-                        },
-                    ],
-                },
-                {
-                    title: '模型配置',
-                    key: 'name10',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '模型配置',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '根据用户的要求对模型参数进行设置和调整，以达到最佳的处理效果。',
-                        },
-                    ],
-                },
-                {
-                    title: '模型文件',
-                    key: 'name11',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '模型文件',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '系统生成的模型文件，包含了所有的模型参数和处理算法。',
-                        },
-                    ],
-                },
-                {
-                    title: '预处理文件',
-                    key: 'name12',
-                    children: [
-                        {
-                            valueType: 'h1',
-                            children: '预处理文件',
-                        },
-                        {
-                            valueType: 'text',
-                            children:
-                                '用于预处理数据的文件，系统可根据用户的设置进行数据预处理。',
-                        },
-                    ],
-                },
-
+                // { key: '13', label: '系统管理' },
             ],
         },
-    ]
+    ];
+    const onClick: MenuProps['onClick'] = (e) => {
+        console.log('click ', e);
+    };
 
+    const handleSave = () => {
+        if (extendTime < 5 || extendTime > 30) {
+            message.error('自定义延长时间范围为5～30分钟，设置后到下课时间自动延长至20分钟后下课');
+            return;
+        }
+        message.success('设置已保存');
+    };
     return (
         <PageContainer>
-            <div
-                style={{
-                    margin: 24,
-                    paddingBlockEnd: 128,
-                    display: 'flex',
-                    gap: 24,
-                    flexDirection: 'column',
-                }}
-            >
-                <ProHelp<{
-                    video: React.VideoHTMLAttributes<HTMLVideoElement>;
-                    list: {
-                        title: string;
-                        children: {
-                            title: string;
-                            href: string;
-                        }[];
-                    };
-                }>
-                    dataSource={resource}
-                    valueTypeMap={map}
-                >
-                    <ProHelpPanel
-                        defaultSelectedKey="1"
+            <Layout style={{ minHeight: '100vh' }}>
+                {/* 左侧菜单 */}
+                <Sider width={200} theme="light">
+                    <Menu
+                        onClick={onClick}
+                        defaultSelectedKeys={['1']}
+                        defaultOpenKeys={['sub1']}
+                        mode="inline"
+                        style={{ height: '100%', background: '#FAFAFB' }}
+                        items={items}
                     />
-                </ProHelp>
-            </div>
+                </Sider>
+
+                {/* 右侧内容 */}
+                <Layout>
+                    <Content style={{ padding: '24px', background: '#FAFAFB' }}>
+                        <Form layout="vertical">
+                            <Form.Item label="自动下课">
+                                <Switch checked={autoDismiss} onChange={() => setAutoDismiss(!autoDismiss)} />
+                            </Form.Item>
+
+                            {autoDismiss && (
+                                <>
+                                    <Form.Item label="自动下课样式">
+                                        <Radio.Group
+                                            value={style}
+                                            onChange={(e) => setStyle(e.target.value)}
+                                        >
+                                            <Radio value="bubble">气泡样式</Radio>
+                                            <Radio value="modal">弹窗样式</Radio>
+                                        </Radio.Group>
+                                    </Form.Item>
+
+                                    <Form.Item label="延长时间">
+                                        <InputNumber
+                                            min={5}
+                                            max={30}
+                                            value={extendTime}
+                                            onChange={(value) => setExtendTime(value || 20)}
+                                            addonAfter="min"
+                                        />
+                                        <Text type="secondary" style={{ display: 'block', marginTop: 8 }}>
+                                            自定义延长时间范围为5～30分钟，设置后到下课时间自动延长至20分钟后下课
+                                        </Text>
+                                    </Form.Item>
+
+                                    <Form.Item label="示例">
+                                        <img src={bubble_style} />
+                                    </Form.Item>
+                                </>
+                            )}
+
+                            <Form.Item>
+                                <Button type="primary" onClick={handleSave}>
+                                    保存
+                                </Button>
+                            </Form.Item>
+                        </Form>
+
+                        {/* <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>
+                            自定义聊天话术
+                        </h2>
+                        <Tabs defaultActiveKey="1" tabBarStyle={{ marginBottom: '16px' }}>
+                            <Tabs.TabPane tab="老师话术" key="1">
+                                <Empty description="暂无数据" />
+                            </Tabs.TabPane>
+                            <Tabs.TabPane tab="学生话术" key="2">
+                                <Empty description="暂无数据" />
+                            </Tabs.TabPane>
+                        </Tabs> */}
+                    </Content>
+                </Layout>
+            </Layout>
         </PageContainer>
     );
 };
 
-export default GeneralSettings
+export default GeneralSettings;

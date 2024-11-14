@@ -46,7 +46,6 @@ export default defineConfig({
     '@text-color': 'rgba(0, 0, 0, 0.87)',
     '@text-color-secondary': 'rgba(0, 0, 0, 0.6)',
     '@background-light': '#FAFAFB',
-    '@input-background': '#F5F5F5',
     less: {
       modifyVars: {
         '@compact-item': true,
@@ -55,7 +54,6 @@ export default defineConfig({
         '@text-color': 'rgba(0, 0, 0, 0.87)',
         '@text-color-secondary': 'rgba(0, 0, 0, 0.6)',
         '@background-light': '#FAFAFB',
-        '@input-background': '#F5F5F5',
         '@font-size-base': '12px',    // 修改字体大小
       },
       javascriptEnabled: true, // 必须开启这个选项才能修改 less 变量
