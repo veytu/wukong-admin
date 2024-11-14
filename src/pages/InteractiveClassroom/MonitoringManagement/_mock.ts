@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
 
-const classroomData = Array.from({ length: 52 }, (_, index) => ({
+const classroomData = Array.from({ length: 73 }, (_, index) => ({
     id: index.toString(),
     name: `岗前教学培训 ${index + 1}`,
-    type: '一对一',
+    classType: '一对一',
     size: '320*240',
     duration: '15分钟',
     code: `80007880${index}`,
@@ -14,9 +14,11 @@ const classroomData = Array.from({ length: 52 }, (_, index) => ({
 
 function getClassRoomData(req: Request, res: Response) {
     const result = {
-        data: {
-            classroomData
-        },
+        data: classroomData,
+        total: 73,
+        success: true,
+        pageSize: 20,
+        current: 1,
     };
     return res.json(result);
 }

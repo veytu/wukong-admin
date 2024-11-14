@@ -1,7 +1,7 @@
 
 import type { Request, Response } from 'express';
 
-const classroomManagementData: ClassroomManagementMockData[] = Array.from({ length: 73 }, (_, index) => ({
+const classroomManagementData: ClassroomManagement.ClassroomManagementMockData[] = Array.from({ length: 73 }, (_, index) => ({
     status: Math.floor(Math.random() * 10) % 4,  // 随机生成开放或关闭状态
     classroomId: (1000 + index).toString(),        // 生成教室号：1000, 1001, ...
     classroomName: `Classroom ${index + 1}`,       // 教室名称：Classroom 1, Classroom 2, ...

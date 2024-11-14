@@ -2,7 +2,7 @@
 
 import type { Request, Response } from 'express';
 
-const mockExceptionData: ExceptionMockData[] = Array.from({ length: 73 }, (_, index) => ({
+const mockExceptionData: ExceptionIssueTicket.ExceptionMockData[] = Array.from({ length: 73 }, (_, index) => ({
     issueType: Math.random() > 0.5 ? '网络问题' : '音频问题',     // 随机生成异常问题类型
     status: ['未处理', '处理中', '已解决'][Math.floor(Math.random() * 3)],  // 随机生成处理状态
     issueDescription: `这是一个关于${Math.random() > 0.5 ? '网络' : '音频'}的问题，影响正常使用。`, // 异常问题描述

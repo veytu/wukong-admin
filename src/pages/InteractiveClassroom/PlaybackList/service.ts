@@ -10,7 +10,7 @@ export async function queryList(
     },
     options?: { [key: string]: any },
 ) {
-    return request<PlaybackListMockData>('/api/playbacklist/list', {
+    return request<PlaybackList.DataList>('/api/playbacklist/list', {
         method: 'GET',
         params: {
             ...params,

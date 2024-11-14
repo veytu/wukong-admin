@@ -10,7 +10,7 @@ const PlaybackList: React.FC = () => {
     const handlePlay = (record) => {
 
     }
-    const columns: ProColumns<PlaybackListMockData>[] = [
+    const columns: ProColumns<PlaybackList.PlaybackListMockData>[] = [
         {
             title: "上课时间",
             dataIndex: 'classTime',
@@ -89,7 +89,7 @@ const PlaybackList: React.FC = () => {
 
     return (
         <PageContainer>
-            <ProTable<PlaybackListMockData, API.PageParams>
+            <ProTable<PlaybackList.PlaybackListMockData, PlaybackList.PageParams>
                 headerTitle={"回放查询"}
                 actionRef={actionRef}
                 rowKey="key"

@@ -14,7 +14,7 @@ const ExceptionIssueTicket: React.FC = () => {
 
     }
 
-    const columns: ProColumns<ExceptionMockData>[] = [
+    const columns: ProColumns<ExceptionIssueTicket.ExceptionMockData>[] = [
         {
             title: "教室号",
             dataIndex: 'classroomId',
@@ -180,7 +180,7 @@ const ExceptionIssueTicket: React.FC = () => {
     };
     return (
         <PageContainer>
-            <ProTable<ExceptionMockData, API.PageParams>
+            <ProTable<ExceptionIssueTicket.ExceptionMockData, ExceptionIssueTicket.PageParams>
                 headerTitle={<Space>
                     <Radio.Group buttonStyle="solid" value={position} onChange={(e) => setPosition(e.target.value)}>
                         <Radio.Button value="start"> 工单列表</Radio.Button>

@@ -10,7 +10,7 @@ export async function queryList(
     },
     options?: { [key: string]: any },
 ) {
-    return request<ClassroomManagementMockData>('/api/management/list', {
+    return request<ClassroomManagement.DataList>('/api/management/list', {
         method: 'GET',
         params: {
             ...params,

@@ -20,7 +20,7 @@ import { queryList } from './service';
  * @zh-CN 添加节点
  * @param fields
  */
-const handleAdd = async (fields: ClassroomManagementMockData) => {
+const handleAdd = async (fields: ClassroomManagement.ClassroomManagementMockData) => {
     const hide = message.loading('正在添加');
     try {
         await addRule({ ...fields });
@@ -66,10 +66,10 @@ const TableList: React.FC = () => {
     const [updateModalOpen, handleUpdateModalOpen] = useState<boolean>(false);
     const [showDetail] = useState<boolean>(false);
     const actionRef = useRef<ActionType>();
-    const [currentRow, setCurrentRow] = useState<ClassroomManagementMockData>();
+    const [currentRow, setCurrentRow] = useState<ClassroomManagement.ClassroomManagementMockData>();
     const intl = useIntl();
 
-    const columns: ProColumns<ClassroomManagementMockData>[] = [
+    const columns: ProColumns<ClassroomManagement.ClassroomManagementMockData>[] = [
         {
             title: "状态",
             dataIndex: 'status',
@@ -160,7 +160,7 @@ const TableList: React.FC = () => {
 
     return (
         <PageContainer>
-            <ProTable<ClassroomManagementMockData, PageParams>
+            <ProTable<ClassroomManagement.ClassroomManagementMockData, ClassroomManagement.PageParams>
                 headerTitle={intl.formatMessage({
                     id: 'pages.searchTable.title',
                     defaultMessage: 'Enquiry form',
@@ -201,7 +201,7 @@ const TableList: React.FC = () => {
                 open={createModalOpen}
                 onOpenChange={handleModalOpen}
                 onFinish={async (value) => {
-                    const success = await handleAdd(value as ClassroomManagementMockData);
+                    const success = await handleAdd(value as ClassroomManagement.ClassroomManagementMockData);
                     if (success) {
                         handleModalOpen(false);
                         if (actionRef.current) {
