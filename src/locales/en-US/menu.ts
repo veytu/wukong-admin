@@ -51,6 +51,8 @@ export default {
   'menu.editor.koni': 'Koni Editor',
   'menu.InteractiveClassroom': 'InteractiveClassroom',
   'menu.InteractiveClassroom.ClassroomManagement': 'ClassroomManagement',
+  'menu.InteractiveClassroom.ClassroomManagement.List': 'ClassroomManagement',
+  'menu.InteractiveClassroom.ClassroomManagement.Settings': 'ClassroomSettings',
   'menu.InteractiveClassroom.MonitoringManagement': 'MonitoringManagement',
   'menu.InteractiveClassroom.PlaybackList': 'PlaybackList',
   'menu.ConfigurationManagement': 'ConfigurationManagement',

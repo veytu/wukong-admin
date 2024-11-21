@@ -4,16 +4,21 @@ import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import {
     ModalForm,
     PageContainer,
+    ProFormDependency,
+    ProFormDigit,
+    ProFormGroup,
+    ProFormRadio,
+    ProFormSelect,
     ProFormText,
     ProFormTextArea,
     ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, message } from 'antd';
+import { Button, Checkbox, DatePicker, Form, Input, InputNumber, message, Radio, Select, Space } from 'antd';
 import React, { useRef, useState } from 'react';
-import type { FormValueType } from './components/UpdateForm';
-import UpdateForm from './components/UpdateForm';
-import { queryList } from './service';
+import type { FormValueType } from './components/ViewInformation';
+import UpdateForm from './components/ViewInformation';
+import { queryList } from '../service';
 
 /**
  * @en-US Add node
@@ -59,6 +64,7 @@ const handleUpdate = async (fields: FormValueType) => {
     }
 };
 
+const { Option } = Select;
 
 const TableList: React.FC = () => {
 
@@ -69,6 +75,9 @@ const TableList: React.FC = () => {
     const [currentRow, setCurrentRow] = useState<ClassroomManagement.ClassroomManagementMockData>();
     const intl = useIntl();
 
+    const handleRoute = () => {
+        // Router.push('/list')
+    }
     const columns: ProColumns<ClassroomManagement.ClassroomManagementMockData>[] = [
         {
             title: "状态",
@@ -145,15 +154,15 @@ const TableList: React.FC = () => {
                 >
                     课前准备
                 </a>,
-                <a key="classSet">
+                <a key="classSet" onClick={handleRoute}>
                     教室设置
                 </a>,
-                <a key="chat">
-                    聊天记录
-                </a>,
-                <a key="rePlay">
-                    观看回放
-                </a>,
+                // <a key="chat">
+                //     聊天记录
+                // </a>,
+                // <a key="rePlay">
+                //     观看回放
+                // </a>,
             ],
         },
     ];
@@ -193,11 +202,8 @@ const TableList: React.FC = () => {
             />
             {/* 新建 */}
             <ModalForm
-                title={intl.formatMessage({
-                    id: 'pages.searchTable.createForm.newRule',
-                    defaultMessage: 'New rule',
-                })}
-                width="400px"
+                title={'新建教室'}
+                width="800px"
                 open={createModalOpen}
                 onOpenChange={handleModalOpen}
                 onFinish={async (value) => {
@@ -210,23 +216,87 @@ const TableList: React.FC = () => {
                     }
                 }}
             >
-                <ProFormText
-                    rules={[
-                        {
-                            required: true,
-                            message: (
-                                <FormattedMessage
-                                    id="pages.searchTable.ruleName"
-                                    defaultMessage="Rule name is required"
-                                />
-                            ),
-                        },
-                    ]}
-                    width="md"
-                    name="name"
-                />
-                <ProFormTextArea width="md" name="desc" />
+                <Form.Item
+                    name="classroomName"
+                    label="教室名称"
+                    rules={[{ required: true, message: "请输入教室名称" }]}
+                >
+                    <Input placeholder="请输入教室名称" />
+                </Form.Item>
+                <Form.Item name="template" label="教室模板">
+                    <Button type="dashed">选择模板</Button>
+                </Form.Item>
+                <Form.Item name="startTime" label="开始时间">
+                    <Space>
+                        <DatePicker
+                            showTime
+                            onChange={(value, dateString) => {
+                                console.log('Selected Time: ', value);
+                                console.log('Formatted Selected Time: ', dateString);
+                            }}
+                        />
+                        <Checkbox>当前时间</Checkbox>
+                    </Space>
+                </Form.Item>
+                <Form.Item
+                    name="endTime"
+                    label="结束时间"
+                    rules={[{ required: true, message: "请选择结束时间" }]}
+                >
+                    <Radio.Group name="radiogroup" defaultValue={1}>
+                        <Radio value={1}>自定义时间</Radio>
+                        <Radio value={2}>选择时间</Radio>
+                    </Radio.Group>
+                    <Space>
+                        <DatePicker
+                            showTime
+                            onChange={(value, dateString) => {
+                                console.log('Selected Time: ', value);
+                                console.log('Formatted Selected Time: ', dateString);
+                            }}
+                        />
+                        <Select style={{ width: '200px' }}>
+                            <Option value="3">30分钟后结束</Option>
+                            <Option value="2">45分钟后结束</Option>
+                            <Option value="1">1小时后结束</Option>
+                        </Select>
+                    </Space>
+                </Form.Item>
+                <Form.Item label="教室口令">
+                    <Space>
+                        <Form.Item name="teacherCode" noStyle>
+                            <InputNumber addonBefore="老师" defaultValue="" />
+                        </Form.Item>
+                        <Form.Item name="assistantCode" noStyle>
+                            <InputNumber addonBefore="助教" defaultValue="" />
+                        </Form.Item>
+                        <Form.Item name="patrolCode" noStyle>
+                            <InputNumber addonBefore="巡课" defaultValue="" />
+                        </Form.Item>
+                    </Space>
+                </Form.Item>
+                <Form.Item label="学生口令">
+                    <Space>
+                        <Form.Item name="studentCode" noStyle>
+                            <InputNumber addonBefore="学生" defaultValue="" />
+                        </Form.Item>
+                        <Form.Item name="studentViewMode" noStyle>
+                            <Checkbox>无限制观看</Checkbox>
+                        </Form.Item>
+                    </Space>
+                </Form.Item>
+                <Form.Item label="旁听生口令">
+                    <Space>
+                        <Form.Item name="studentCode" noStyle>
+                            <InputNumber addonBefore="旁听生" defaultValue="" />
+                        </Form.Item>
+                        <Form.Item name="studentViewMode" noStyle>
+                            <Checkbox>无限制观看</Checkbox>
+                        </Form.Item>
+                    </Space>
+                </Form.Item>
             </ModalForm>
+
             {/* 课前准备 */}
             <UpdateForm
                 onSubmit={async (value) => {
@@ -248,7 +318,7 @@ const TableList: React.FC = () => {
                 updateModalOpen={updateModalOpen}
                 values={currentRow || {}}
             />
-        </PageContainer>
+        </PageContainer >
     );
 };
 

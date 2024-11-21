@@ -23,12 +23,6 @@ export default [
     ],
   },
   // {
-  //   path: '/welcome',
-  //   name: 'welcome',
-  //   icon: 'smile',
-  //   component: './Welcome',
-  // },
-  // {
   //   path: '/admin',
   //   name: 'admin',
   //   icon: 'crown',
@@ -53,7 +47,20 @@ export default [
       {
         path: '/interactive-classroom/classroom-management',
         name: 'ClassroomManagement',
-        component: './InteractiveClassroom/ClassroomManagement',
+        flatMenu: true,
+        routes: [
+          {
+            path: '/interactive-classroom/classroom-management/list',
+            name: 'List',
+            component: './InteractiveClassroom/ClassroomManagement/List',
+          },
+          {
+            path: '/interactive-classroom/classroom-management/settings',
+            name: 'Settings',
+            hideInMenu: true,
+            component: './InteractiveClassroom/ClassroomManagement/ClassroomSettings',
+          }
+        ]
       },
       {
         path: '/interactive-classroom/monitoring-management',
@@ -93,7 +100,7 @@ export default [
   },
   {
     path: '/',
-    redirect: '/interactive-classroom/classroom-management',
+    redirect: '/interactive-classroom/classroom-management/list',
   },
   {
     path: '*',

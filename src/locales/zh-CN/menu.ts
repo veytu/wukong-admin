@@ -51,6 +51,8 @@ export default {
   'menu.editor.koni': '拓扑编辑器',
   'menu.InteractiveClassroom': '互动课堂',
   'menu.InteractiveClassroom.ClassroomManagement': '教室管理',
+  'menu.InteractiveClassroom.ClassroomManagement.List': '教室管理',
+  'menu.InteractiveClassroom.ClassroomManagement.Settings': '教室设置',
   'menu.InteractiveClassroom.MonitoringManagement': '监课管理',
   'menu.InteractiveClassroom.PlaybackList': '回放列表',
   'menu.ConfigurationManagement': '配置管理',
