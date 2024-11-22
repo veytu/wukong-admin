@@ -1,4 +1,3 @@
-import { addRule, updateRule } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import {
@@ -26,17 +25,17 @@ import { queryList } from '../service';
  * @param fields
  */
 const handleAdd = async (fields: ClassroomManagement.ClassroomManagementMockData) => {
-    const hide = message.loading('正在添加');
-    try {
-        await addRule({ ...fields });
-        hide();
-        message.success('Added successfully');
-        return true;
-    } catch (error) {
-        hide();
-        message.error('Adding failed, please try again!');
-        return false;
-    }
+    // const hide = message.loading('正在添加');
+    // try {
+    //     await addRule({ ...fields });
+    //     hide();
+    //     message.success('Added successfully');
+    //     return true;
+    // } catch (error) {
+    //     hide();
+    //     message.error('Adding failed, please try again!');
+    //     return false;
+    // }
 };
 
 /**
@@ -46,22 +45,22 @@ const handleAdd = async (fields: ClassroomManagement.ClassroomManagementMockData
  * @param fields
  */
 const handleUpdate = async (fields: FormValueType) => {
-    const hide = message.loading('Configuring');
-    try {
-        await updateRule({
-            name: fields.name,
-            desc: fields.desc,
-            key: fields.key,
-        });
-        hide();
+    // const hide = message.loading('Configuring');
+    // try {
+    //     await updateRule({
+    //         name: fields.name,
+    //         desc: fields.desc,
+    //         key: fields.key,
+    //     });
+    //     hide();
 
-        message.success('Configuration is successful');
-        return true;
-    } catch (error) {
-        hide();
-        message.error('Configuration failed, please try again!');
-        return false;
-    }
+    //     message.success('Configuration is successful');
+    //     return true;
+    // } catch (error) {
+    //     hide();
+    //     message.error('Configuration failed, please try again!');
+    //     return false;
+    // }
 };
 
 const { Option } = Select;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, Modal, Space, Tabs, TabsProps, Typography, Image, Flex } from 'antd';
+import { Button, Input, Modal, Space, Tabs, TabsProps, Typography, Image, Flex, InputNumber } from 'antd';
 import styles from '../index.less'
 
 export type FormValueType = {
@@ -21,68 +21,56 @@ const { Text } = Typography;
 
 // 老师/助教/巡课 Tab 内容
 const TeacherTabContent: React.FC = () => (
-  <Space direction="vertical" style={{ width: "100%" }}>
-    <div className={styles.part}>
-      <Flex justify='space-between'>
-        <Text>开播链接：</Text>
-        <Space>
-          <Button type="link">打开</Button>
-          <Button type="link">复制</Button>
-        </Space>
-      </Flex>
-      <div>
-        <Input
-          value="https://global.talk-cloud.net/enterRoom/671277841/120390/1/0"
-          readOnly
-        />
-      </div>
-    </div>
+  <div style={{ width: "100%" }}>
     <Space direction="vertical" className={styles.part}>
-      <Text>教室号：</Text>
-      <Input value="671277841" readOnly />
-    </Space>
-    <Space direction="vertical" className={styles.part}>
-      <Text>登录口令：</Text>
+      <Text>开播链接</Text>
       <Space>
-        <Input value="老师 4108" readOnly />
-        <Input value="助教 2807" readOnly />
-        <Input value="巡课 3271" readOnly />
+        <a href="" target='_blank'>https://global.talk-cloud.net/enterRoom/671277841/120390/1/0</a>
+        <Button.Group>
+          <Button variant="filled" color="default" size='small'>复制</Button>
+          <Button variant="solid" color="default" size='small'>打开</Button>
+        </Button.Group>
       </Space>
     </Space>
-  </Space>
+    <Space direction="vertical" className={styles.part}>
+      <Text>登录口令</Text>
+      <Space>
+        <InputNumber addonBefore="老师" defaultValue="4108" readOnly />
+        <InputNumber addonBefore="助教" defaultValue="4108" readOnly />
+        <InputNumber addonBefore="巡课" defaultValue="4108" readOnly />
+      </Space>
+    </Space>
+    <Space direction="vertical" className={styles.part}>
+      <Text>教室号</Text>
+      <InputNumber defaultValue="671277841" readOnly />
+    </Space>
+  </div>
 );
 
 // 学生 Tab 内容
 const StudentTabContent: React.FC = () =>
   <Space direction="vertical" style={{ width: "100%" }}>
-    <div className={styles.part}>
-      <Flex justify='space-between'>
-        <Text>开播链接：</Text>
-        <div>
-          <Button type="link">打开</Button>
-          <Button type="link">复制</Button>
-        </div>
-      </Flex>
-      <div>
-        <Input
-          value="https://global.talk-cloud.net/enterRoom/671277841/120390/1/0"
-          readOnly
-        />
-      </div>
-    </div>
-    <Flex justify="space-between" >
-      <div>
-        <Flex vertical className={styles.part}>
-          <Text>教室号：</Text>
-          <Input value="671277841" readOnly />
-        </Flex>
-        <Flex vertical className={styles.part}>
-          <Text>登录口令：</Text>
-          <Space>
-            <Input value="4108" readOnly />
-          </Space>
-        </Flex>
-      </div>
+    <Space direction="vertical" className={styles.part}>
+      <Text>开播链接</Text>
+      <Space>
+        <a href="" target='_blank'>https://global.talk-cloud.net/enterRoom/671277841/120390/1/0</a>
+        <Button.Group>
+          <Button variant="filled" color="default" size='small'>复制</Button>
+          <Button variant="solid" color="default" size='small'>打开</Button>
+        </Button.Group>
+      </Space>
+    </Space>
+    <Flex justify="space-between" align='center'>
+      <Space direction='vertical'>
+        <Space direction="vertical" className={styles.part}>
+          <Text>登录口令</Text>
+          <InputNumber defaultValue="671277841" readOnly />
+        </Space>
+        <Space direction="vertical" >
+          <Text>教室号</Text>
+          <InputNumber defaultValue="671277841" readOnly />
+        </Space>
+      </Space>
       <Flex vertical={true}>
         <Image width={104} height={104}
           src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />
@@ -94,34 +82,27 @@ const StudentTabContent: React.FC = () =>
 
 // 旁听生 Tab 内容
 const ListenerTabContent: React.FC = () => <Space direction="vertical" style={{ width: "100%" }}>
-  <div className={styles.part}>
-    <Flex justify='space-between'>
-      <Text>开播链接：</Text>
-      <div>
-        <Button type="link">打开</Button>
-        <Button type="link">复制</Button>
-      </div>
-    </Flex>
-    <div>
-      <Input
-        value="https://global.talk-cloud.net/enterRoom/671277841/120390/1/0"
-        readOnly
-      />
-    </div>
-  </div>
-  <Flex justify="space-between" >
-    <div>
-      <Flex vertical className={styles.part}>
-        <Text>教室号：</Text>
-        <Input value="671277841" readOnly />
-      </Flex>
-      <Flex vertical className={styles.part}>
-        <Text>登录口令：</Text>
-        <Space>
-          <Input value="4108" readOnly />
-        </Space>
-      </Flex>
-    </div>
+  <Space direction="vertical" className={styles.part}>
+    <Text>开播链接</Text>
+    <Space>
+      <a href="" target='_blank'>https://global.talk-cloud.net/enterRoom/671277841/120390/1/0</a>
+      <Button.Group>
+        <Button variant="filled" color="default" size='small'>复制</Button>
+        <Button variant="solid" color="default" size='small'>打开</Button>
+      </Button.Group>
+    </Space>
+  </Space>
+  <Flex justify="space-between" align='center'>
+    <Space direction='vertical'>
+      <Space direction="vertical" className={styles.part}>
+        <Text>登录口令</Text>
+        <InputNumber defaultValue="671277841" readOnly />
+      </Space>
+      <Space direction="vertical" >
+        <Text>教室号</Text>
+        <InputNumber defaultValue="671277841" readOnly />
+      </Space>
+    </Space>
     <Flex vertical={true}>
       <Image width={104} height={104}
         src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />

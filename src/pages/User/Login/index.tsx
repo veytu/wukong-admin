@@ -1,6 +1,6 @@
 import { Footer } from '@/components';
-import { login } from '@/services/ant-design-pro/api';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+import { login } from '@/services/wukong-admin/login';
+import { getFakeCaptcha } from '@/services/wukong-admin/login';
 import {
   LockOutlined,
   MobileOutlined,

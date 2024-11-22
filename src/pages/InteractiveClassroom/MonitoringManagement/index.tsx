@@ -1,13 +1,18 @@
 import React, { useRef, useState } from 'react';
 import { PageContainer, ProList } from '@ant-design/pro-components';
-import { FileImageOutlined } from '@ant-design/icons';
-import { Image, Tag } from 'antd';
+import { Button, Image, Popover, Space, Tag } from 'antd';
 import { queryList } from './service';
 import styles from './index.less';
 
 
 const MonitoringManagement: React.FC = () => {
-
+    const content = (
+        <Space direction="vertical">
+            <Button block color="primary" variant="outlined">助教进入</Button>
+            <Button block color="primary" variant="outlined">巡课进入</Button>
+            <Button block color="primary" variant="outlined">工单管理员进入</Button>
+        </Space>
+    );
     return (
         <PageContainer >
             {/* 列表 */}
@@ -114,7 +119,9 @@ const MonitoringManagement: React.FC = () => {
                         cardActionProps: 'actions',
                         render: () => {
                             return (
-                                [<a key="run">进入教室</a>, <a key="delete" style={styles.view}>查看</a>]
+                                [<Popover key="run" content={content}>
+                                    <a>进入教室</a>
+                                </Popover>, <a key="delete" style={styles.view}>查看</a>]
                             )
                         }
                     },
