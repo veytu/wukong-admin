@@ -59,6 +59,9 @@ export default defineConfig({
       javascriptEnabled: true, // 必须开启这个选项才能修改 less 变量
     },
   },
+  antd: {
+    compact: true
+  },
   /**
    * @name moment 的国际化配置
    * @description 如果对国际化没有要求，打开之后能减少js的包大小

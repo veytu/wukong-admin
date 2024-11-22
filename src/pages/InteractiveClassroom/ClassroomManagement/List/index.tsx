@@ -100,18 +100,18 @@ const TableList: React.FC = () => {
 
         {
             title: "教室号",
-            dataIndex: 'classroomId',
+            dataIndex: 'roomId',
             valueType: 'textarea',
         },
         {
             title: "教室名称",
-            dataIndex: 'classroomName',
+            dataIndex: 'roomName',
             valueType: 'textarea',
         },
 
         {
             title: "最早开始时间",
-            dataIndex: 'earliestStartTime',
+            dataIndex: 'startTime',
             valueType: 'dateTime',
             renderFormItem: (item, { defaultRender, }, form) => {
                 const status = form.getFieldValue('status');
@@ -120,6 +120,7 @@ const TableList: React.FC = () => {
                 }
                 return defaultRender(item);
             },
+            hideInTable: true,
         },
         {
             title: "最晚开始时间",
@@ -133,10 +134,23 @@ const TableList: React.FC = () => {
 
                 return defaultRender(item);
             },
+            hideInTable: true,
+        },
+        {
+            title: '开始时间',
+            dataIndex: 'startTime',
+            valueType: 'dateTime',
+            search: false,
+        },
+        {
+            title: '结束时间',
+            dataIndex: 'endTime',
+            valueType: 'dateTime',
+            search: false,
         },
         {
             title: '教室类型',
-            dataIndex: 'classroomType',
+            dataIndex: 'roomTypeName',
             search: false,
         },
         {
@@ -175,7 +189,7 @@ const TableList: React.FC = () => {
                 })}
                 size="small"
                 actionRef={actionRef}
-                rowKey="classroomId"
+                rowKey="roomId"
                 search={{
                     labelWidth: 100,
                     defaultCollapsed: false,
@@ -216,7 +230,7 @@ const TableList: React.FC = () => {
                 }}
             >
                 <Form.Item
-                    name="classroomName"
+                    name="roomName"
                     label="教室名称"
                     rules={[{ required: true, message: "请输入教室名称" }]}
                 >

@@ -19,6 +19,8 @@ interface ResponseStructure {
   showType?: ErrorShowType;
 }
 
+
+
 /**
  * @name 错误处理
  * pro 自带的错误处理， 可以在这里做自己的改动
@@ -89,7 +91,8 @@ export const errorConfig: RequestConfig = {
   requestInterceptors: [
     (config: RequestOptions) => {
       // 拦截请求配置，进行个性化处理。
-      const url = config?.url?.concat('?token = 123');
+      // const url = config?.url?.concat('?token = 123');
+      const url = config.url
       return { ...config, url };
     },
   ],
@@ -101,9 +104,21 @@ export const errorConfig: RequestConfig = {
       const { data } = response as unknown as ResponseStructure;
 
       if (data?.success === false) {
-        message.error('请求失败！');
+        message.error(data?.message || '请求失败！');
       }
+
+      response.data = {
+        ...response.data,
+        ...(data?.total !== undefined && { total: data?.total }),
+        ...(data?.success !== undefined && { success: data?.success }),
+        ...(data?.message && { errorMessage: data?.message }),
+        ...(data?.data?.data && { data: data?.data?.data }),
+      };
       return response;
     },
   ],
 };
+
+
+
+

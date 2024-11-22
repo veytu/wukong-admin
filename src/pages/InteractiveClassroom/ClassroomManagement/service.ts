@@ -10,10 +10,11 @@ export async function queryList(
     },
     options?: { [key: string]: any },
 ) {
-    return request<ClassroomManagement.DataList>('/api/management/list', {
+    return request<ClassroomManagement.DataList>('/api/management/room/getRoomList', {
         method: 'GET',
         params: {
-            ...params,
+            pageSize: params.pageSize,
+            pageIndex: params.current
         },
         ...(options || {}),
     });
