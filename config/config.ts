@@ -59,9 +59,6 @@ export default defineConfig({
       javascriptEnabled: true, // 必须开启这个选项才能修改 less 变量
     },
   },
-  antd: {
-    compact: true
-  },
   /**
    * @name moment 的国际化配置
    * @description 如果对国际化没有要求，打开之后能减少js的包大小
@@ -128,7 +125,9 @@ export default defineConfig({
    * @description 内置了 babel import 插件
    * @doc https://umijs.org/docs/max/antd#antd
    */
-  antd: {},
+  antd: {
+    compact: true
+  },
   /**
    * @name 网络请求配置
    * @description 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
@@ -157,13 +156,13 @@ export default defineConfig({
    * @doc https://pro.ant.design/zh-cn/docs/openapi/
    */
   openAPI: [
-    {
-      requestLibPath: "import { request } from '@umijs/max'",
-      // 或者使用在线的版本
-      // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
-      schemaPath: join(__dirname, 'oneapi.json'),
-      mock: false,
-    },
+    // {
+    // requestLibPath: "import { request } from '@umijs/max'",
+    // 或者使用在线的版本
+    // schemaPath: "https://gw.alipayobjects.com/os/antfincdn/M%24jrzTTYJN/oneapi.json"
+    // schemaPath: join(__dirname, 'oneapi.json'),
+    // mock: false,
+    // },
     // {
     //   requestLibPath: "import { request } from '@umijs/max'",
     //   schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',

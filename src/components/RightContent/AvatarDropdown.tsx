@@ -1,4 +1,4 @@
-import { outLogin } from '@/services/wukong-admin/login';
+import { outLogin } from '@/pages/User/service';
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { history, useModel } from '@umijs/max';
 import { Spin } from 'antd';

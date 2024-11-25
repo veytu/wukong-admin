@@ -3,17 +3,10 @@ import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import {
     ModalForm,
     PageContainer,
-    ProFormDependency,
-    ProFormDigit,
-    ProFormGroup,
-    ProFormRadio,
-    ProFormSelect,
-    ProFormText,
-    ProFormTextArea,
     ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl } from '@umijs/max';
-import { Button, Checkbox, DatePicker, Form, Input, InputNumber, message, Radio, Select, Space } from 'antd';
+import { Button, Checkbox, DatePicker, Form, Input, InputNumber, Radio, Select, Space } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/ViewInformation';
 import UpdateForm from './components/ViewInformation';
@@ -77,10 +70,11 @@ const TableList: React.FC = () => {
     const handleRoute = () => {
         // Router.push('/list')
     }
+
     const columns: ProColumns<ClassroomManagement.ClassroomManagementMockData>[] = [
         {
             title: "状态",
-            dataIndex: 'status',
+            dataIndex: 'roomStatus',
             hideInTable: true,
             valueEnum: {
                 0: {
@@ -189,11 +183,15 @@ const TableList: React.FC = () => {
                 })}
                 size="small"
                 actionRef={actionRef}
-                rowKey="roomId"
+                rowKey="mainId"
                 search={{
                     labelWidth: 100,
                     defaultCollapsed: false,
 
+                }}
+                pagination={{
+                    defaultPageSize: 20, // 每页默认 10 条
+                    showSizeChanger: true, // 显示每页条数切换器
                 }}
                 options={{
                     setting: false,

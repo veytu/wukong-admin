@@ -112,7 +112,7 @@ export const errorConfig: RequestConfig = {
         ...(data?.total !== undefined && { total: data?.total }),
         ...(data?.success !== undefined && { success: data?.success }),
         ...(data?.message && { errorMessage: data?.message }),
-        ...(data?.data?.data && { data: data?.data?.data }),
+        ...data.data
       };
       return response;
     },
