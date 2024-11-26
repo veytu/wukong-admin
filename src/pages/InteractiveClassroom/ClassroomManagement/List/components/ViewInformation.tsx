@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, Modal, Space, Tabs, TabsProps, Typography, Image, Flex, InputNumber } from 'antd';
+import { Button, Modal, Space, Tabs, TabsProps, Typography, Image, Flex, InputNumber } from 'antd';
 import styles from '../index.less'
 
 export type FormValueType = {
@@ -8,13 +8,12 @@ export type FormValueType = {
   type?: string;
   time?: string;
   frequency?: string;
-} & Partial<API.RuleListItem>;
+} & Partial<ClassroomManagement.ListItem>;
 
 export type UpdateFormProps = {
   onCancel: (flag?: boolean, formVals?: FormValueType) => void;
-  onSubmit: (values: FormValueType) => Promise<void>;
   updateModalOpen: boolean;
-  values: Partial<API.RuleListItem>;
+  values: Partial<ClassroomManagement.ListItem>;
 };
 
 const { Text } = Typography;
@@ -140,7 +139,5 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
     </Modal>
   );
 };
-
-
 
 export default UpdateForm;

@@ -4,7 +4,9 @@ declare namespace API {
     code?: number;      // 状态码
     message?: string;   // 消息描述
     data?: T;           // 响应数据
+    timestamp?: number
   };
+
 
   type CurrentUser = {
     data: any,
@@ -26,7 +28,7 @@ declare namespace API {
     };
     address?: string;
     phone?: string;
-  };
+  }
 
   type CaptchaData = {
     imageUrl?: string;
@@ -36,16 +38,30 @@ declare namespace API {
   type CaptchaResult = ApiResponse<CaptchaData>;
 
   type LoginParams = {
-    username?: string;
+    userName?: string;
     password?: string;
     captcha?: string;
     captchaToken?: string;
   };
 
+  type Permission = {
+    permissionId: string;
+    permissionName: string;
+    description: string;
+  };
+
+  type Role = {
+    roleId: string;
+    roleName: string;
+    description: string;
+    permissions: Permission[];
+  };
+
   type UserData = {
+    userName: string;
     userId: string;
-    username: string;
-    email: string;
+    token: string | null;
+    roleResponseList: Role[];
   };
 
   type LoginResult = ApiResponse<UserData>;

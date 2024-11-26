@@ -39,7 +39,7 @@ const useStyles = createStyles(({ token }) => {
         },
         captcha: {
             width: '100px',
-            height: '40px',
+            height: '34px',
             borderRadius: '8px',
         }
     }

@@ -48,6 +48,10 @@ declare namespace ClassroomManagement {
         message?: string,
         total?: number;
     };
+
+    type ListItem = {
+        [key]: any
+    }
 }
 
 

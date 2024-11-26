@@ -5,19 +5,15 @@ import {
     PageContainer,
     ProTable,
 } from '@ant-design/pro-components';
-import { FormattedMessage, useIntl } from '@umijs/max';
+import { FormattedMessage, useIntl, Link } from '@umijs/max';
 import { Button, Checkbox, DatePicker, Form, Input, InputNumber, Radio, Select, Space } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/ViewInformation';
 import UpdateForm from './components/ViewInformation';
 import { queryList } from '../service';
 
-/**
- * @en-US Add node
- * @zh-CN 添加节点
- * @param fields
- */
-const handleAdd = async (fields: ClassroomManagement.ClassroomManagementMockData) => {
+
+const handleAdd = async (fields) => {
     // const hide = message.loading('正在添加');
     // try {
     //     await addRule({ ...fields });
@@ -31,30 +27,7 @@ const handleAdd = async (fields: ClassroomManagement.ClassroomManagementMockData
     // }
 };
 
-/**
- * @en-US Update node
- * @zh-CN 更新节点
- *
- * @param fields
- */
-const handleUpdate = async (fields: FormValueType) => {
-    // const hide = message.loading('Configuring');
-    // try {
-    //     await updateRule({
-    //         name: fields.name,
-    //         desc: fields.desc,
-    //         key: fields.key,
-    //     });
-    //     hide();
 
-    //     message.success('Configuration is successful');
-    //     return true;
-    // } catch (error) {
-    //     hide();
-    //     message.error('Configuration failed, please try again!');
-    //     return false;
-    // }
-};
 
 const { Option } = Select;
 
@@ -66,10 +39,6 @@ const TableList: React.FC = () => {
     const actionRef = useRef<ActionType>();
     const [currentRow, setCurrentRow] = useState<ClassroomManagement.ClassroomManagementMockData>();
     const intl = useIntl();
-
-    const handleRoute = () => {
-        // Router.push('/list')
-    }
 
     const columns: ProColumns<ClassroomManagement.ClassroomManagementMockData>[] = [
         {
@@ -161,9 +130,9 @@ const TableList: React.FC = () => {
                 >
                     课前准备
                 </a>,
-                <a key="classSet" onClick={handleRoute}>
+                <Link key="classSet" to={''}>
                     教室设置
-                </a>,
+                </Link>,
                 // <a key="chat">
                 //     聊天记录
                 // </a>,
@@ -310,21 +279,9 @@ const TableList: React.FC = () => {
 
             {/* 课前准备 */}
             <UpdateForm
-                onSubmit={async (value) => {
-                    const success = await handleUpdate(value);
-                    if (success) {
-                        handleUpdateModalOpen(false);
-                        setCurrentRow(undefined);
-                        if (actionRef.current) {
-                            actionRef.current.reload();
-                        }
-                    }
-                }}
                 onCancel={() => {
                     handleUpdateModalOpen(false);
-                    if (!showDetail) {
-                        setCurrentRow(undefined);
-                    }
+
                 }}
                 updateModalOpen={updateModalOpen}
                 values={currentRow || {}}

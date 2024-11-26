@@ -19,12 +19,6 @@ export async function getCaptcha() {
   });
 }
 
-export async function currentUser(options?: { [key: string]: any }) {
-  return request<API.CurrentUser>('/api/currentUser', {
-    method: 'GET',
-    ...(options || {}),
-  });
-}
 
 export async function outLogin(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/api/login/outLogin', {

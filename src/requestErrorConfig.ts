@@ -1,6 +1,7 @@
 ﻿import type { RequestOptions } from '@@/plugin-request/request';
 import type { RequestConfig } from '@umijs/max';
 import { message, notification } from 'antd';
+import { history } from '@umijs/max';
 
 // 错误处理方案： 错误类型
 enum ErrorShowType {
@@ -89,11 +90,20 @@ export const errorConfig: RequestConfig = {
 
   // 请求拦截器
   requestInterceptors: [
-    (config: RequestOptions) => {
+    (url, options: RequestOptions) => {
       // 拦截请求配置，进行个性化处理。
-      // const url = config?.url?.concat('?token = 123');
-      const url = config.url
-      return { ...config, url };
+      const token = localStorage.getItem('token');
+      if (token) {
+        const headers = {
+          ...options.headers,
+          Authorization: `Bearer ${token}`,
+        };
+        return {
+          url,
+          options: { ...options, headers },
+        };
+      }
+      return { url, options };
     },
   ],
 
@@ -103,16 +113,22 @@ export const errorConfig: RequestConfig = {
       // 拦截响应数据，进行个性化处理
       const { data } = response as unknown as ResponseStructure;
 
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        message.error('登录已过期，请重新登录！');
+        history.push('/user/login');
+      }
+
       if (data?.success === false) {
         message.error(data?.message || '请求失败！');
       }
 
       response.data = {
         ...response.data,
+        ...data.data,
         ...(data?.total !== undefined && { total: data?.total }),
         ...(data?.success !== undefined && { success: data?.success }),
         ...(data?.message && { errorMessage: data?.message }),
-        ...data.data
       };
       return response;
     },

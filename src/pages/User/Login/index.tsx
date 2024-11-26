@@ -72,6 +72,7 @@ const Login: React.FC = () => {
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
         });
+        localStorage.setItem('token', msg.data?.token || '');
         message.success(defaultLoginSuccessMessage);
 
         await fetchUserInfo();
@@ -79,6 +80,7 @@ const Login: React.FC = () => {
         history.push(urlParams.get('redirect') || '/');
         return;
       }
+      fetchCaptcha();
       setUserLoginState(msg);
 
     } catch (error) {
@@ -91,7 +93,7 @@ const Login: React.FC = () => {
     }
   };
 
-  const { code } = userLoginState;
+  const { code, message: errorMessage } = userLoginState;
 
   return (
     <div className={styles.container}>
@@ -133,17 +135,9 @@ const Login: React.FC = () => {
               }
             ]}
           />
-          {code === 1 && (
-            <LoginMessage
-              content={intl.formatMessage({
-                id: 'pages.login.accountLogin.errorMessage',
-                defaultMessage: '账户或密码错误',
-              })}
-            />
-          )}
           <>
             <ProFormText
-              name="username"
+              name="userName"
               fieldProps={{
                 size: 'large',
                 prefix: <UserOutlined />,
@@ -209,10 +203,10 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
-              <Image src={`data:image/png;base64,${captcha}`} preview={false} onClick={fetchCaptcha} className={styles.captcha} />
+              <img src={`data:image/png;base64,${captcha}`} onClick={fetchCaptcha} className={styles.captcha} />
             </Flex>
           </>
-          {code === 1 && <LoginMessage content="验证码错误" />}
+          {code === 1 && <LoginMessage content={errorMessage || '登录失败,请重试'} />}
         </LoginForm>
       </div>
       <Footer />
