@@ -13,9 +13,22 @@ export async function queryList(
     return request<ClassroomManagement.DataList>('/api/management/room/getRoomList', {
         method: 'GET',
         params: {
+            ...params,
             pageSize: params.pageSize,
             pageIndex: params.current
         },
+        ...(options || {}),
+    });
+}
+
+
+export async function addClassRoom(body: API.LoginParams, options?: { [key: string]: any }) {
+    return request<API.LoginResult>('/api/management/room/createRoom', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: body,
         ...(options || {}),
     });
 }

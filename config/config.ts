@@ -40,7 +40,6 @@ export default defineConfig({
     // 如果不想要 configProvide 动态设置主题需要把这个设置为 default
     // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
     'root-entry-name': 'default',
-    '@compact-item': true,
     '@primary-color': 'rgb(79, 60, 201)',
     '@link-color': 'rgb(79, 60, 201)',
     '@text-color': 'rgba(0, 0, 0, 0.87)',
@@ -48,13 +47,11 @@ export default defineConfig({
     '@background-light': '#FAFAFB',
     less: {
       modifyVars: {
-        '@compact-item': true,
         '@primary-color': 'rgb(79, 60, 201)',  // 修改主色调
         '@link-color': 'rgb(79, 60, 201)',     // 设置链接颜色
         '@text-color': 'rgba(0, 0, 0, 0.87)',
         '@text-color-secondary': 'rgba(0, 0, 0, 0.6)',
         '@background-light': '#FAFAFB',
-        '@font-size-base': '12px',    // 修改字体大小
       },
       javascriptEnabled: true, // 必须开启这个选项才能修改 less 变量
     },
@@ -126,7 +123,7 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/antd#antd
    */
   antd: {
-    compact: true
+    // compact: true
   },
   /**
    * @name 网络请求配置

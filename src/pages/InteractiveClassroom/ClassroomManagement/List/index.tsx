@@ -6,28 +6,31 @@ import {
     ProTable,
 } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, Link } from '@umijs/max';
-import { Button, Checkbox, DatePicker, Form, Input, InputNumber, Radio, Select, Space } from 'antd';
+import { Button, Checkbox, DatePicker, Form, Input, InputNumber, Radio, Select, Space, message } from 'antd';
 import React, { useRef, useState } from 'react';
-import type { FormValueType } from './components/ViewInformation';
 import UpdateForm from './components/ViewInformation';
-import { queryList } from '../service';
+import { queryList, addClassRoom } from '../service';
+
 
 
 const handleAdd = async (fields) => {
-    // const hide = message.loading('正在添加');
-    // try {
-    //     await addRule({ ...fields });
-    //     hide();
-    //     message.success('Added successfully');
-    //     return true;
-    // } catch (error) {
-    //     hide();
-    //     message.error('Adding failed, please try again!');
-    //     return false;
-    // }
+    const hide = message.loading('正在添加');
+    try {
+        await addClassRoom({ ...fields });
+        hide();
+        message.success('Added successfully');
+        return true;
+    } catch (error) {
+        hide();
+        message.error('Adding failed, please try again!');
+        return false;
+    }
 };
 
 
+const openTemplate = () => {
+
+}
 
 const { Option } = Select;
 
@@ -35,9 +38,8 @@ const TableList: React.FC = () => {
 
     const [createModalOpen, handleModalOpen] = useState<boolean>(false);
     const [updateModalOpen, handleUpdateModalOpen] = useState<boolean>(false);
-    const [showDetail] = useState<boolean>(false);
-    const actionRef = useRef<ActionType>();
     const [currentRow, setCurrentRow] = useState<ClassroomManagement.ClassroomManagementMockData>();
+    const actionRef = useRef<ActionType>();
     const intl = useIntl();
 
     const columns: ProColumns<ClassroomManagement.ClassroomManagementMockData>[] = [
@@ -48,22 +50,21 @@ const TableList: React.FC = () => {
             valueEnum: {
                 0: {
                     text: "有效期内的",
-                    status: 'Processing',
+                    status: '1',
                 },
                 1: {
                     text: "未来的",
-                    status: 'Success',
+                    status: '2',
                 },
                 2: {
                     text: "已过期的",
-                    status: 'Error',
+                    status: '3',
                 },
             },
         },
-
         {
             title: "教室号",
-            dataIndex: 'roomId',
+            dataIndex: 'roomNumber',
             valueType: 'textarea',
         },
         {
@@ -87,7 +88,7 @@ const TableList: React.FC = () => {
         },
         {
             title: "最晚开始时间",
-            dataIndex: 'latestStartTime',
+            dataIndex: 'endStartTime',
             valueType: 'dateTime',
             renderFormItem: (item, { defaultRender, }, form) => {
                 const status = form.getFieldValue('status');
@@ -124,13 +125,13 @@ const TableList: React.FC = () => {
                 <a
                     key="config"
                     onClick={() => {
-                        handleUpdateModalOpen(true);
                         setCurrentRow(record);
+                        handleUpdateModalOpen(true);
                     }}
                 >
                     课前准备
                 </a>,
-                <Link key="classSet" to={''}>
+                <Link key="classSet" to={'/interactive-classroom/classroom-management/settings'}>
                     教室设置
                 </Link>,
                 // <a key="chat">
@@ -152,15 +153,15 @@ const TableList: React.FC = () => {
                 })}
                 size="small"
                 actionRef={actionRef}
-                rowKey="mainId"
+                rowKey="roomId"
                 search={{
                     labelWidth: 100,
                     defaultCollapsed: false,
 
                 }}
                 pagination={{
-                    defaultPageSize: 20, // 每页默认 10 条
-                    showSizeChanger: true, // 显示每页条数切换器
+                    defaultPageSize: 20,
+                    showSizeChanger: true,
                 }}
                 options={{
                     setting: false,
@@ -204,7 +205,7 @@ const TableList: React.FC = () => {
                     <Input placeholder="请输入教室名称" />
                 </Form.Item>
                 <Form.Item name="template" label="教室模板">
-                    <Button type="dashed">选择模板</Button>
+                    <Button type="dashed" onClick={openTemplate}>选择模板</Button>
                 </Form.Item>
                 <Form.Item name="startTime" label="开始时间">
                     <Space>
@@ -276,12 +277,14 @@ const TableList: React.FC = () => {
                     </Space>
                 </Form.Item>
             </ModalForm>
+            {/* 模板选择 */}
+            <ModalForm>
 
+            </ModalForm>
             {/* 课前准备 */}
             <UpdateForm
                 onCancel={() => {
                     handleUpdateModalOpen(false);
-
                 }}
                 updateModalOpen={updateModalOpen}
                 values={currentRow || {}}

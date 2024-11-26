@@ -1,11 +1,21 @@
 
 declare namespace ClassroomManagement {
+    interface JoinPasswordEntry {
+        joinUrl: string | null;
+        role: number;
+        password: string;
+        roleDesc: string;
+    }
+
+    interface JoinPassword {
+        [key: string]: JoinPasswordEntry;
+    }
 
     type ConfigInfo = {
         videoResolutionConfig: number;
         videoFramerateConfig: number;
         videoKbpsConfigId: number;
-        joinPassword: Record<string, any>;
+        joinPassword: JoinPassword;
         roomLogoPath: string;
         autoOpenAudio: string;
         autoOpenVideo: string;
@@ -21,12 +31,13 @@ declare namespace ClassroomManagement {
         mainId: string;
         roomId: string;
         roomName: string;
-        startTime: string;
-        endTime: string;
         roomType: number;
         roomTypeName: string;
         roomStatus: number;
-        roomNumber?: string;
+        roomNumber: string;
+        startTime: number;//最早开始
+        endStartTime: number,//最晚开始
+        endTime: number;//结束
         usePlatformRoomId?: string;
         fromPlatformRoomId?: string;
         delayTime?: number;
@@ -49,9 +60,6 @@ declare namespace ClassroomManagement {
         total?: number;
     };
 
-    type ListItem = {
-        [key]: any
-    }
 }
 
 
