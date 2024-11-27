@@ -9,26 +9,13 @@ declare namespace API {
 
 
   type CurrentUser = {
-    data: any,
-    name?: string;
-    avatar?: string;
-    userid?: string;
-    email?: string;
-    signature?: string;
-    title?: string;
-    group?: string;
-    tags?: { key?: string; label?: string }[];
-    notifyCount?: number;
-    unreadCount?: number;
-    country?: string;
-    access?: string;
-    geographic?: {
-      province?: { label?: string; key?: string };
-      city?: { label?: string; key?: string };
-    };
-    address?: string;
-    phone?: string;
+    userName: string,
+    userId: string,
+    token: string,
+    avatar?: string,
+    roleResponseList: any[]
   }
+  type UserResult = ApiResponse<CurrentUser>
 
   type CaptchaData = {
     imageUrl?: string;

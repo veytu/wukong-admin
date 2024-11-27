@@ -14,7 +14,6 @@ export async function queryList(
         method: 'GET',
         params: {
             ...params,
-            pageSize: params.pageSize,
             pageIndex: params.current
         },
         ...(options || {}),

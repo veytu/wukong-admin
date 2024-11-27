@@ -6,7 +6,7 @@ import { Button, Space, message, Form, RadioChangeEvent } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import UpdateForm from './components/ViewInformation';
 import { queryList, addClassRoom } from '../service';
-
+import { Dayjs } from 'dayjs';
 
 const TableList: React.FC = () => {
 
@@ -22,17 +22,18 @@ const TableList: React.FC = () => {
         {
             title: "状态",
             dataIndex: 'roomStatus',
+            valueType: 'select',
             hideInTable: true,
             valueEnum: {
-                0: {
+                1: {
                     text: "有效期内的",
                     status: '1',
                 },
-                1: {
+                2: {
                     text: "未来的",
                     status: '2',
                 },
-                2: {
+                3: {
                     text: "已过期的",
                     status: '3',
                 },
@@ -139,7 +140,7 @@ const TableList: React.FC = () => {
     const SelectCurrentTime = (e: RadioChangeEvent) => {
 
     }
-    const SelectEndTime = (date: Date, dateString: string | string[]) => {
+    const SelectEndTime = (date: Dayjs | null, dateString: string | string[]) => {
 
     }
 
@@ -163,10 +164,9 @@ const TableList: React.FC = () => {
                 search={{
                     labelWidth: 100,
                     defaultCollapsed: false,
-
                 }}
                 pagination={{
-                    defaultPageSize: 20,
+                    defaultPageSize: 10,
                     showSizeChanger: true,
                 }}
                 options={{
@@ -184,6 +184,7 @@ const TableList: React.FC = () => {
                         <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
                     </Button>,
                 ]}
+                dateFormatter='number'
                 request={queryList}
                 columns={columns}
             />
@@ -219,11 +220,7 @@ const TableList: React.FC = () => {
                         </ProFormCheckbox>
                     </Space>
                 </ProForm.Item>
-                <ProForm.Item
-                    name="endTime"
-                    label="结束时间"
-                    rules={[{ required: true, message: "请选择结束时间" }]}
-                >
+                <ProForm.Item name="endTime" label="结束时间" rules={[{ required: true, message: "请选择结束时间" }]}>
                     <Space>
                         <>
                             {value === '1' ?

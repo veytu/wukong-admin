@@ -59,7 +59,21 @@ declare namespace ClassroomManagement {
         message?: string,
         total?: number;
     };
-
+    interface ClassroomInfo {
+        name: string;
+        type: string;
+        template: string;
+        templateImage: string;
+        startDate: string;
+        endDate: string;
+        commands: {
+            teacher: number;
+            assistant: number;
+            patrol: number;
+            student: string;
+            listener: number;
+        };
+    }
 }
 
 
