@@ -108,6 +108,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request = {
-  baseURL: process.env.REACT_APP_API_URL || 'http://192.168.31.29:8089',
+  baseURL: process.env.REACT_APP_API_URL,
   ...errorConfig,
 };

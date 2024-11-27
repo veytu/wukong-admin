@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
 import { Footer } from '@/components';
-import { Alert, message, Tabs, Image, Flex } from 'antd';
+import { Alert, message, Tabs, Flex } from 'antd';
 import {
   LockOutlined,
   UserOutlined,

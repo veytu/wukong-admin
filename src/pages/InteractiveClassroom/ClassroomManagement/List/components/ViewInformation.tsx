@@ -69,6 +69,10 @@ const TeacherTabContent: React.FC<JoinRoomProps> = (props) => {
           }
         </Space>
       </Space>
+      <Flex vertical className={styles.part}>
+        <Text>教室号</Text>
+        <div>{roomNumber}</div>
+      </Flex>
       <Space direction="vertical" className={styles.part}>
         <Text>登录口令</Text>
         <Space>
@@ -77,10 +81,7 @@ const TeacherTabContent: React.FC<JoinRoomProps> = (props) => {
           <InputNumber addonBefore="巡课" defaultValue={values[2].password} readOnly />
         </Space>
       </Space>
-      <Space direction="vertical" className={styles.part}>
-        <Text>教室号</Text>
-        <InputNumber defaultValue={roomNumber} readOnly />
-      </Space>
+
     </div>
   )
 };
@@ -102,15 +103,16 @@ const StudentTabContent: React.FC<JoinRoomProps> = (props) => {
           }
         </Space>
       </Space>
+
       <Flex justify="space-between" align='center'>
         <Space direction='vertical'>
-          <Space direction="vertical" className={styles.part}>
-            <Text>登录口令</Text>
-            <InputNumber defaultValue={values.password} readOnly />
-          </Space>
           <Space direction="vertical" >
             <Text>教室号</Text>
-            <InputNumber defaultValue={roomNumber} readOnly />
+            <div>{roomNumber}</div>
+          </Space>
+          <Space direction="vertical" className={styles.part}>
+            <Text>登录口令</Text>
+            <InputNumber addonBefore="学生" defaultValue={values.password} readOnly />
           </Space>
         </Space>
         <Flex vertical={true}>
@@ -141,14 +143,15 @@ const ListenerTabContent: React.FC<JoinRoomProps> = (props) => {
       </Space>
       <Flex justify="space-between" align='center'>
         <Space direction='vertical'>
-          <Space direction="vertical" className={styles.part}>
-            <Text>登录口令</Text>
-            <InputNumber defaultValue={values.password} readOnly />
-          </Space>
           <Space direction="vertical" >
             <Text>教室号</Text>
-            <InputNumber defaultValue={roomNumber} readOnly />
+            <div>{roomNumber}</div>
           </Space>
+          <Space direction="vertical" className={styles.part}>
+            <Text>登录口令</Text>
+            <InputNumber addonBefore="旁听生" defaultValue={values.password} readOnly />
+          </Space>
+
         </Space>
         <Flex vertical={true}>
           <Image width={104} height={104}
@@ -171,7 +174,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
 
   return (
     <Modal
-      width={700}
+      width={800}
       destroyOnClose
       title={'课前准备'}
       open={props.updateModalOpen}

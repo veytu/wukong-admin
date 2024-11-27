@@ -96,7 +96,7 @@ export const errorConfig: RequestConfig = {
       if (token) {
         const headers = {
           ...options.headers,
-          Authorization: `Bearer ${token}`,
+          Authorization: `${token}`,
         };
         return {
           url,
@@ -119,7 +119,7 @@ export const errorConfig: RequestConfig = {
         history.push('/user/login');
       }
 
-      if (data?.success === false) {
+      if (data?.code !== 200) {
         message.error(data?.message || '请求失败！');
       }
 
