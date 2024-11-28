@@ -59,9 +59,9 @@ const TeacherTabContent: React.FC<JoinRoomProps> = (props) => {
       <Space direction="vertical" className={styles.part}>
         <Text>开播链接</Text>
         <Space wrap>
-          <a href="" target='_blank'>{values[0].joinUrl}</a>
+          <a href={values[0]?.joinUrl} target='_blank' rel="noopener noreferrer">{values[0]?.joinUrl}</a>
           {
-            values[0].joinUrl &&
+            values[0]?.joinUrl &&
             <Button.Group>
               <Button variant="filled" color="default" size='small' onClick={() => copyThat(values[0].joinUrl)}>复制</Button>
               <Button variant="solid" color="default" size='small' onClick={() => openUrl(values[0].joinUrl)}>打开</Button>
@@ -76,9 +76,9 @@ const TeacherTabContent: React.FC<JoinRoomProps> = (props) => {
       <Space direction="vertical" className={styles.part}>
         <Text>登录口令</Text>
         <Space>
-          <InputNumber addonBefore="老师" defaultValue={values[0].password} readOnly />
-          <InputNumber addonBefore="助教" defaultValue={values[1].password} readOnly />
-          <InputNumber addonBefore="巡课" defaultValue={values[2].password} readOnly />
+          <InputNumber addonBefore="老师" defaultValue={values[0]?.password} readOnly />
+          <InputNumber addonBefore="助教" defaultValue={values[1]?.password} readOnly />
+          <InputNumber addonBefore="巡课" defaultValue={values[2]?.password} readOnly />
         </Space>
       </Space>
 
@@ -94,9 +94,9 @@ const StudentTabContent: React.FC<JoinRoomProps> = (props) => {
       <Space direction="vertical" className={styles.part} >
         <Text>开播链接</Text>
         <Space wrap>
-          <a href={values.joinUrl} target='_blank' rel="noopener noreferrer">{values.joinUrl}</a>
+          <a href={values?.joinUrl} target='_blank' rel="noopener noreferrer">{values?.joinUrl}</a>
           {
-            values.joinUrl && <Button.Group>
+            values?.joinUrl && <Button.Group>
               <Button variant="filled" color="default" size='small' onClick={() => copyThat(values.joinUrl)}>复制</Button>
               <Button variant="solid" color="default" size='small' onClick={() => openUrl(values.joinUrl)}>打开</Button>
             </Button.Group>
@@ -112,12 +112,12 @@ const StudentTabContent: React.FC<JoinRoomProps> = (props) => {
           </Space>
           <Space direction="vertical" className={styles.part}>
             <Text>登录口令</Text>
-            <InputNumber addonBefore="学生" defaultValue={values.password} readOnly />
+            <InputNumber addonBefore="学生" defaultValue={values?.password} readOnly />
           </Space>
         </Space>
         <Flex vertical={true}>
           <Image width={104} height={104}
-            src={generateQRCode(values.joinUrl)} />
+            src={generateQRCode(values?.joinUrl)} />
           <Text>扫码观看</Text>
         </Flex>
       </Flex>
@@ -132,9 +132,9 @@ const ListenerTabContent: React.FC<JoinRoomProps> = (props) => {
       <Space direction="vertical" className={styles.part}>
         <Text>开播链接</Text>
         <Space wrap>
-          <a href={values.joinUrl} target='_blank' rel="noopener noreferrer">{values.joinUrl}</a>
+          <a href={values?.joinUrl} target='_blank' rel="noopener noreferrer">{values?.joinUrl}</a>
           {
-            values.joinUrl && <Button.Group>
+            values?.joinUrl && <Button.Group>
               <Button variant="filled" color="default" size='small' onClick={() => copyThat(values.joinUrl)}>复制</Button>
               <Button variant="solid" color="default" size='small' onClick={() => openUrl(values.joinUrl)}>打开</Button>
             </Button.Group>
@@ -149,13 +149,13 @@ const ListenerTabContent: React.FC<JoinRoomProps> = (props) => {
           </Space>
           <Space direction="vertical" className={styles.part}>
             <Text>登录口令</Text>
-            <InputNumber addonBefore="旁听生" defaultValue={values.password} readOnly />
+            <InputNumber addonBefore="旁听生" defaultValue={values?.password} readOnly />
           </Space>
 
         </Space>
         <Flex vertical={true}>
           <Image width={104} height={104}
-            src={generateQRCode(values.joinUrl)} />
+            src={generateQRCode(values?.joinUrl)} />
           <Text>扫码观看</Text>
         </Flex>
       </Flex>

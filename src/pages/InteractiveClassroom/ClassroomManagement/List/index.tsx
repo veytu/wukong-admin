@@ -6,13 +6,14 @@ import { Button, Space, message, Form, RadioChangeEvent } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import UpdateForm from './components/ViewInformation';
 import { queryList, addClassRoom } from '../service';
-import { Dayjs } from 'dayjs';
 
 const TableList: React.FC = () => {
-
+    const [messageApi, contextHolder] = message.useMessage();
     const [createModalOpen, handleModalOpen] = useState<boolean>(false);
     const [updateModalOpen, handleUpdateModalOpen] = useState<boolean>(false);
     const [currentRow, setCurrentRow] = useState<ClassroomManagement.ClassroomManagementMockData>();
+    const [auditorDisabled, setAuditorDisabled] = useState(false)
+    const [studentDisabled, setStudentDisabled] = useState(false)
     const [value, setValue] = useState('1');
     const actionRef = useRef<ActionType>();
     const intl = useIntl();
@@ -120,39 +121,61 @@ const TableList: React.FC = () => {
         },
     ];
 
-    const handleAdd = async (fields: ClassroomManagement.ClassroomManagementMockData) => {
-        const hide = message.loading('正在添加');
+    const handleAdd = async (fields: ClassroomManagement.addClassRoom) => {
+        const hide = messageApi.loading('正在添加');
         try {
-            await addClassRoom({ ...fields });
+            let endTime = 0, afterTime = fields.afterTime!
+            if (fields.selectEndTime === '1') {
+                endTime = new Date(fields.startTime).getTime() + afterTime * 60 * 1000
+            } else {
+                endTime = new Date(fields.endTime).getTime()
+            }
+            const submitData = {
+                "roomName": fields.roomName,
+                "startTime": new Date(fields.startTime).getTime(),
+                "endTime": endTime,
+                "roomType": 1,
+                "joinPassword": {
+                    "1": fields.teacherCode,
+                    "2": fields.assistantCode,
+                    "3": fields.patrolCode,
+                    "4": fields.studentCode,
+                    "5": fields.auditorCode
+                }
+            }
+            const result = await addClassRoom({ ...submitData });
             hide();
-            message.success('Added successfully');
+            messageApi.success(result.message);
             return true;
         } catch (error) {
             hide();
-            message.error('Adding failed, please try again!');
+            messageApi.error('Adding failed, please try again!');
             return false;
         }
     };
+
     const onChangeEndTime = (e: RadioChangeEvent) => {
         setValue(e.target.value);
     }
 
-    const SelectCurrentTime = (e: RadioChangeEvent) => {
-
-    }
-    const SelectEndTime = (date: Dayjs | null, dateString: string | string[]) => {
-
-    }
-
     const handleWatch = (e: RadioChangeEvent) => {
-
+        const isChecked = e.target.checked;
+        if (isChecked) {
+            form.setFieldsValue({ studentCode: undefined });
+        }
+        setStudentDisabled(isChecked)
     }
 
     const handleAuditorWatch = (e: RadioChangeEvent) => {
-
+        const isChecked = e.target.checked;
+        if (isChecked) {
+            form.setFieldsValue({ auditorCode: undefined });
+        }
+        setAuditorDisabled(isChecked)
     }
     return (
         <PageContainer>
+            {contextHolder}
             <ProTable<ClassroomManagement.ClassroomManagementMockData, ClassroomManagement.PageParams>
                 headerTitle={intl.formatMessage({
                     id: 'pages.searchTable.title',
@@ -197,7 +220,7 @@ const TableList: React.FC = () => {
                 open={createModalOpen}
                 onOpenChange={handleModalOpen}
                 onFinish={async (value) => {
-                    const success = await handleAdd(value as ClassroomManagement.ClassroomManagementMockData);
+                    const success = await handleAdd(value as ClassroomManagement.addClassRoom);
                     if (success) {
                         handleModalOpen(false);
                         if (actionRef.current) {
@@ -211,53 +234,43 @@ const TableList: React.FC = () => {
                     name="roomName"
                     label="教室名称"
                     placeholder="请输入教室名称"
+                    rules={[{ required: true, message: "请输入教室名称" }]}
                 />
-                <ProForm.Item name="startTime" label="开始时间" rules={[{ required: true, message: "请选择开始时间" }]}>
-                    <Space>
-                        <ProFormDateTimePicker name="dateTime" />
-                        <ProFormCheckbox fieldProps={{ onChange: SelectCurrentTime }}>
-                            当前时间
-                        </ProFormCheckbox>
-                    </Space>
+                <ProForm.Item label="开始时间" name="startTime" rules={[{ required: true, message: "请选择开始时间" }]}>
+                    <ProFormDateTimePicker
+                        fieldProps={{
+                            format: 'YYYY-MM-DD HH:mm:ss',
+                        }}
+                    />
                 </ProForm.Item>
-                <ProForm.Item name="endTime" label="结束时间" rules={[{ required: true, message: "请选择结束时间" }]}>
+                <ProForm.Item label="结束时间" rules={[{ required: true, message: "请选择结束时间" }]}>
                     <Space>
                         <>
                             {value === '1' ?
                                 <ProFormSelect style={{ width: '200px' }}
+                                    initialValue={45}
+                                    name="afterTime"
                                     options={[
-                                        {
-                                            label: '30分钟后生效',
-                                            value: '1',
-                                        },
-                                        {
-                                            label: '45分钟后生效',
-                                            value: '2',
-                                        },
-                                        {
-                                            label: '60分钟后生效',
-                                            value: '3',
-                                        },
+                                        { label: '45分钟后结束', value: 45 },
+                                        { label: '120分钟后结束', value: 120 },
                                     ]}
                                 />
                                 :
                                 <ProFormDateTimePicker
-                                    name="dateTime"
-                                    fieldProps={{ onChange: SelectEndTime }}
+                                    name="endTime"
+                                    fieldProps={{
+                                        format: 'YYYY-MM-DD HH:mm:ss',
+                                    }}
                                 />
                             }
                         </>
                         <ProFormRadio.Group
+                            name='selectEndTime'
                             fieldProps={{ onChange: onChangeEndTime }}
+                            initialValue="1"
                             options={[
-                                {
-                                    label: '选择时间',
-                                    value: '1',
-                                },
-                                {
-                                    label: '自定义时间',
-                                    value: '2',
-                                },
+                                { label: '选择时间', value: '1' },
+                                { label: '自定义时间', value: '2' },
                             ]}
                         />
                     </Space>
@@ -267,34 +280,44 @@ const TableList: React.FC = () => {
                         <ProFormDigit name="teacherCode" fieldProps={{
                             addonBefore: '老师',
                             defaultValue: undefined,
-                        }} />
+                        }}
+                            rules={[{ required: true, message: "请输入老师口令" }]}
+                        />
                         <ProFormDigit name="assistantCode" fieldProps={{
                             addonBefore: '助教',
                             defaultValue: undefined,
-                        }} />
+                        }}
+                            rules={[{ required: true, message: "请输入助教口令" }]}
+                        />
                         <ProFormDigit name="patrolCode" fieldProps={{
                             addonBefore: '巡课',
                             defaultValue: undefined,
-                        }} />
+                        }}
+                            rules={[{ required: true, message: "请输入巡课口令" }]}
+                        />
                     </Space>
                 </ProForm.Item>
-                <ProForm.Item label="学生口令" name="student">
+                <ProForm.Item label="学生口令" >
                     <Space>
-                        <ProFormDigit fieldProps={{
+                        <ProFormDigit name="studentCode" fieldProps={{
                             addonBefore: '学生',
                             defaultValue: undefined,
-                        }} />
+                            disabled: studentDisabled
+                        }}
+                        />
                         <ProFormCheckbox fieldProps={{ onChange: handleWatch }}>
                             无限制观看
                         </ProFormCheckbox>
                     </Space>
                 </ProForm.Item>
-                <ProForm.Item label="旁听生口令" name="studentCode">
+                <ProForm.Item label="旁听生口令" >
                     <Space>
-                        <ProFormDigit fieldProps={{
+                        <ProFormDigit name="auditorCode" fieldProps={{
                             addonBefore: '旁听生',
                             defaultValue: undefined,
-                        }} />
+                            disabled: auditorDisabled,
+                        }}
+                        />
                         <ProFormCheckbox fieldProps={{ onChange: handleAuditorWatch }}>
                             无限制观看
                         </ProFormCheckbox>

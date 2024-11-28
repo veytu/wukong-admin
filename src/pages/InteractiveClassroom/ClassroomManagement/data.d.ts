@@ -59,6 +59,21 @@ declare namespace ClassroomManagement {
         message?: string,
         total?: number;
     };
+
+    type addClassRoom = {
+        roomName: string,
+        startTime: number,
+        endTime: number,
+        roomType: number,
+        teacherCode?: string,
+        assistantCode?: string,
+        patrolCode?: string,
+        studentCode?: string,
+        auditorCode?: string,
+        selectEndTime?: string,
+        afterTime?: number,
+        joinPassword?: object
+    }
     interface ClassroomInfo {
         name: string;
         type: string;

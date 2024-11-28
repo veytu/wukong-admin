@@ -21,7 +21,7 @@ export async function queryList(
 }
 
 
-export async function addClassRoom(body: API.LoginParams, options?: { [key: string]: any }) {
+export async function addClassRoom(body: ClassroomManagement.addClassRoom, options?: { [key: string]: any }) {
     return request<API.LoginResult>('/api/management/room/createRoom', {
         method: 'POST',
         headers: {

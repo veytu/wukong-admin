@@ -32,6 +32,7 @@ const LoginMessage: React.FC<{
 };
 
 const Login: React.FC = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [captcha, setCaptcha] = useState<string | undefined>('');
   const [captchaToken, setCaptchaToken] = useState<string | undefined>('');
@@ -73,7 +74,7 @@ const Login: React.FC = () => {
           defaultMessage: '登录成功！',
         });
         localStorage.setItem('token', msg.data?.token || '');
-        message.success(defaultLoginSuccessMessage);
+        messageApi.success(defaultLoginSuccessMessage);
 
         await fetchUserInfo();
         const urlParams = new URL(window.location.href).searchParams;
@@ -89,7 +90,7 @@ const Login: React.FC = () => {
         defaultMessage: '登录失败，请重试！',
       });
       fetchCaptcha();
-      message.error(defaultLoginFailureMessage);
+      messageApi.error(defaultLoginFailureMessage);
     }
   };
 
@@ -97,6 +98,7 @@ const Login: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      {contextHolder}
       <Helmet>
         <title>
           {intl.formatMessage({
