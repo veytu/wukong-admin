@@ -114,7 +114,7 @@ const Login: React.FC = () => {
             minWidth: 280,
             maxWidth: '75vw',
           }}
-          logo={<img alt="logo" src="/logo.svg" />}
+          logo={<img alt="logo" src="./logo.svg" />}
           title="WuKong Admin"
           subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
           initialValues={{
@@ -205,7 +205,7 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
-              <img src={`data:image/png;base64,${captcha}`} onClick={fetchCaptcha} className={styles.captcha} />
+              <img src={`${captcha}`} onClick={fetchCaptcha} className={styles.captcha} />
             </Flex>
           </>
           {code === 1 && <LoginMessage content={errorMessage || '登录失败,请重试'} />}
