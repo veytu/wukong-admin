@@ -65,11 +65,13 @@ export default [
       {
         path: '/interactive-classroom/monitoring-management',
         name: 'MonitoringManagement',
+        hideInMenu: true,
         component: './InteractiveClassroom/MonitoringManagement',
       },
       {
         path: '/interactive-classroom/playback-list',
         name: 'PlaybackList',
+        hideInMenu: true,
         component: './InteractiveClassroom/PlaybackList',
       },
     ],
@@ -78,6 +80,7 @@ export default [
     path: '/configuration-management',
     name: 'ConfigurationManagement',
     icon: 'apartmentOutlined',
+    hideInMenu: true,
     routes: [
       {
         path: '/configuration-management/general-settings',
@@ -90,6 +93,7 @@ export default [
     path: '/ticket-management',
     name: 'TicketManagement',
     icon: 'containerOutlined',
+    hideInMenu: true,
     routes: [
       {
         path: '/ticket-management/exception-issue-ticket',
