@@ -205,7 +205,7 @@ const Login: React.FC = () => {
                   },
                 ]}
               />
-              <img src={`data:image/png;base64,${captcha}`} onClick={fetchCaptcha} className={styles.captcha} />
+              <img src={`${captcha}`} onClick={fetchCaptcha} className={styles.captcha} />
             </Flex>
           </>
           {code === 1 && <LoginMessage content={errorMessage || '登录失败,请重试'} />}
