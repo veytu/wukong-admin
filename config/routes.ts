@@ -54,12 +54,12 @@ export default [
             name: 'List',
             component: './InteractiveClassroom/ClassroomManagement/List',
           },
-          {
-            path: '/interactive-classroom/classroom-management/settings',
-            name: 'Settings',
-            hideInMenu: true,
-            component: './InteractiveClassroom/ClassroomManagement/ClassroomSettings',
-          }
+          // {
+          //   path: '/interactive-classroom/classroom-management/settings',
+          //   name: 'Settings',
+          //   hideInMenu: true,
+          //   component: './InteractiveClassroom/ClassroomManagement/ClassroomSettings',
+          // }
         ]
       },
       {

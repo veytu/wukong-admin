@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { ActionType, ProColumns, } from '@ant-design/pro-components';
 import { ModalForm, PageContainer, ProForm, ProFormCheckbox, ProFormDateTimePicker, ProFormDigit, ProFormRadio, ProFormSelect, ProFormText, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, Link } from '@umijs/max';
@@ -14,6 +14,7 @@ const TableList: React.FC = () => {
     const [currentRow, setCurrentRow] = useState<ClassroomManagement.ClassroomManagementMockData>();
     const [auditorDisabled, setAuditorDisabled] = useState(false)
     const [studentDisabled, setStudentDisabled] = useState(false)
+    const [showData, setShowData] = useState({pageSize:10,currentPage:1})
     const [value, setValue] = useState('1');
     const actionRef = useRef<ActionType>();
     const intl = useIntl();
@@ -108,9 +109,9 @@ const TableList: React.FC = () => {
                 >
                     课前准备
                 </a>,
-                <Link key="classSet" to={'/interactive-classroom/classroom-management/settings'}>
-                    教室设置
-                </Link>,
+                // <Link key="classSet" to={'/interactive-classroom/classroom-management/settings'}>
+                //     教室设置
+                // </Link>,
                 // <a key="chat">
                 //     聊天记录
                 // </a>,
@@ -134,12 +135,12 @@ const TableList: React.FC = () => {
                 "roomName": fields.roomName,
                 "startTime": new Date(fields.startTime).getTime(),
                 "endTime": endTime,
-                "roomType": 1,
+                "roomType": 0,
                 "joinPassword": {
-                    "1": fields.teacherCode,
-                    "2": fields.assistantCode,
-                    "3": fields.patrolCode,
-                    "4": fields.studentCode,
+                    "0": fields.teacherCode,
+                    "1": fields.assistantCode,
+                    "2": fields.patrolCode,
+                    "3": fields.studentCode,
                     "5": fields.auditorCode
                 }
             }
@@ -173,6 +174,13 @@ const TableList: React.FC = () => {
         }
         setAuditorDisabled(isChecked)
     }
+
+    useEffect(()=>{
+        if(createModalOpen){
+            form.resetFields();
+        }
+    },[createModalOpen])
+
     return (
         <PageContainer>
             {contextHolder}
@@ -189,8 +197,11 @@ const TableList: React.FC = () => {
                     defaultCollapsed: false,
                 }}
                 pagination={{
-                    defaultPageSize: 10,
-                    showSizeChanger: true,
+                    pageSize: showData.pageSize,
+                    current: showData.currentPage,
+                    showSizeChanger: true,  // 显示每页条数的切换器
+                    pageSizeOptions: ['10', '20', '50'],  // 可选的每页条数
+                    showTotal: (total) => `共 ${total} 条`,  // 显示总条数
                 }}
                 options={{
                     setting: false,
@@ -208,7 +219,16 @@ const TableList: React.FC = () => {
                     </Button>,
                 ]}
                 dateFormatter='number'
-                request={queryList}
+                request={async (params) => {
+                    // 通过传入的 params 获取分页信息
+                    //@ts-ignore
+                    const result = await queryList({...params,pageIndex:params.current});
+                    //@ts-ignore
+                    setShowData(result)
+                    //@ts-ignore
+                    result.total = result.totalCount
+                    return result;
+                  }}
                 columns={columns}
             />
             {/* 新建 */}

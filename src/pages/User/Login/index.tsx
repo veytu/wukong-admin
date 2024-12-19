@@ -81,7 +81,7 @@ const Login: React.FC = () => {
         history.push(urlParams.get('redirect') || '/');
         return;
       }
-      fetchCaptcha();
+      // fetchCaptcha();
       setUserLoginState(msg);
 
     } catch (error) {
@@ -182,7 +182,7 @@ const Login: React.FC = () => {
                 },
               ]}
             />
-            <Flex justify='space-between' gap="middle">
+            {/* <Flex justify='space-between' gap="middle">
               <ProFormText
                 name="captcha"
                 fieldProps={{
@@ -206,7 +206,7 @@ const Login: React.FC = () => {
                 ]}
               />
               <img src={`${captcha}`} onClick={fetchCaptcha} className={styles.captcha} />
-            </Flex>
+            </Flex> */}
           </>
           {code === 1 && <LoginMessage content={errorMessage || '登录失败,请重试'} />}
         </LoginForm>
