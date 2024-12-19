@@ -49,7 +49,7 @@ const Login: React.FC = () => {
   };
 
   React.useEffect(() => {
-    fetchCaptcha();
+    // fetchCaptcha();
   }, []);
 
   const fetchUserInfo = async () => {
