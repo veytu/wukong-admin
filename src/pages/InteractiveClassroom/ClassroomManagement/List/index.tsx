@@ -125,6 +125,19 @@ const TableList: React.FC = () => {
         },
     ];
 
+    const checkUniqueGroups = (groups: any) => {
+        const seen = new Set();
+        for (const group of groups) {
+            const groupStr = group.toString();
+            if (seen.has(groupStr)) {
+                return false;
+            }
+            seen.add(groupStr);
+        }
+
+        return true;
+    }
+
     const handleAdd = async (fields: ClassroomManagement.addClassRoom) => {
         const studentValue = fields.studentCode
         const auditorValue = fields.auditorCode
@@ -142,9 +155,13 @@ const TableList: React.FC = () => {
         } else {
             setAuditorTip(false)
         }
+        const unique = checkUniqueGroups([fields.teacherCode, fields.assistantCode, fields.patrolCode, fields.studentCode, fields.auditorCode])
+        if (!unique) {
+            messageApi.error('角色密码不能相同');
+            return false;
+        }
         const hide = messageApi.loading('正在添加');
         try {
-
             let endTime = 0, afterTime = fields.afterTime!
             if (fields.selectEndTime === '1') {
                 endTime = new Date(fields.startTime).getTime() + afterTime * 60 * 1000
