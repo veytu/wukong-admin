@@ -17,7 +17,7 @@ export default {
       // 要代理的地址
       // target: 'https://43.192.42.31',
       // pathRewrite: { '^': '' },
-      target: 'http://192.168.31.30:8089',
+      target: 'http://43.192.42.31:8089',
       // 配置了这个可以从 http 代理到 https
       // 依赖 origin 的功能可能需要这个，比如 cookie
       changeOrigin: true,

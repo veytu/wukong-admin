@@ -62,8 +62,8 @@ declare namespace ClassroomManagement {
 
     type addClassRoom = {
         roomName: string,
-        startTime: number,
-        endTime: number,
+        startTime: string,
+        endTime: string,
         roomType: number,
         teacherCode?: string,
         assistantCode?: string,

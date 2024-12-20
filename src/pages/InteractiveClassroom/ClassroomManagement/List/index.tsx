@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import type { ActionType, ProColumns, } from '@ant-design/pro-components';
 import { ModalForm, PageContainer, ProForm, ProFormCheckbox, ProFormDateTimePicker, ProFormDigit, ProFormRadio, ProFormSelect, ProFormText, ProTable } from '@ant-design/pro-components';
 import { FormattedMessage, useIntl, Link } from '@umijs/max';
-import { Button, Space, message, Form, RadioChangeEvent } from 'antd';
+import { Button, Space, message, Form, RadioChangeEvent, Select } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import UpdateForm from './components/ViewInformation';
 import { queryList, addClassRoom } from '../service';
@@ -17,15 +17,21 @@ const TableList: React.FC = () => {
     const [studentDisabled, setStudentDisabled] = useState(false)
     const [studentTip, setStudentTip] = useState(false)
     const [auditorTip, setAuditorTip] = useState(false)
+    const [roomStatus, setRoomStatus] = useState('1')
     const [endTime, setEndTime] = useState('1');
     const actionRef = useRef<ActionType>();
     const intl = useIntl();
     const [form] = Form.useForm();
 
+    // 处理状态选择变化
+    const handleStatusChange = (value: any) => {
+        setRoomStatus(value); // 更新状态
+    };
+
     const columns: ProColumns<ClassroomManagement.ClassroomManagementMockData>[] = [
         {
             title: "状态",
-            dataIndex: 'roomStatus',
+            dataIndex: 'roomState',
             valueType: 'select',
             hideInTable: true,
             valueEnum: {
@@ -42,6 +48,21 @@ const TableList: React.FC = () => {
                     status: '3',
                 },
             },
+            renderFormItem: (_, { value }) => (
+                <Select value={value || roomStatus} onChange={(val) => {
+                    handleStatusChange(val);
+                }}>
+                    {Object.entries({
+                        1: '有效期内的',
+                        2: '未来的',
+                        3: '已过期的',
+                    }).map(([key, text]) => (
+                        <Select.Option key={key} value={key}>
+                            {text}
+                        </Select.Option>
+                    ))}
+                </Select>
+            ),
         },
         {
             title: "教室号",
@@ -58,12 +79,15 @@ const TableList: React.FC = () => {
             dataIndex: 'startTime',
             valueType: 'dateTime',
             renderFormItem: (item, { defaultRender, }, form) => {
-                const status = form.getFieldValue('status');
-                if (`${status}` === '1') {
-                    return false;
+                const roomStatus = form.getFieldValue('roomState');
+                if (`${roomStatus}` === '1') {
+                    return null;
+
+                } else {
+                    return defaultRender(item);
                 }
-                return defaultRender(item);
             },
+            search: roomStatus !== '1',
             hideInTable: true,
         },
         {
@@ -71,13 +95,14 @@ const TableList: React.FC = () => {
             dataIndex: 'endStartTime',
             valueType: 'dateTime',
             renderFormItem: (item, { defaultRender, }, form) => {
-                const status = form.getFieldValue('status');
+                const status = form.getFieldValue('roomState');
                 if (`${status}` === '1') {
-                    return false;
+                    return null;
+                } else {
+                    return defaultRender(item);
                 }
-
-                return defaultRender(item);
             },
+            search: roomStatus !== '1',
             hideInTable: true,
         },
         {
@@ -164,14 +189,16 @@ const TableList: React.FC = () => {
         try {
             let endTime = 0, afterTime = fields.afterTime!
             if (fields.selectEndTime === '1') {
-                endTime = new Date(fields.startTime).getTime() + afterTime * 60 * 1000
+                let date = new Date(fields.startTime)
+                date.setMinutes(date.getMinutes() + afterTime)
+                endTime = date.getTime()
             } else {
                 endTime = new Date(fields.endTime).getTime()
             }
             const submitData = {
                 "roomName": fields.roomName,
-                "startTime": new Date(fields.startTime).getTime(),
-                "endTime": endTime,
+                "startTime": new Date(fields.startTime).getTime().toString(),
+                "endTime": endTime.toString(),
                 "roomType": 0,
                 "joinPassword": {
                     "0": fields.teacherCode,
@@ -298,7 +325,7 @@ const TableList: React.FC = () => {
                 <ProForm.Item label="开始时间" name="startTime" rules={[{ required: true, message: "请选择开始时间" }]}>
                     <ProFormDateTimePicker
                         fieldProps={{
-                            format: 'YYYY-MM-DD HH:mm:ss',
+                            format: 'YYYY/MM/DD HH:mm:ss',
                             defaultValue: dayjs()
                         }}
                     />
@@ -319,7 +346,7 @@ const TableList: React.FC = () => {
                                 <ProFormDateTimePicker
                                     name="endTime"
                                     fieldProps={{
-                                        format: 'YYYY-MM-DD HH:mm:ss',
+                                        format: 'YYYY/MM/DD HH:mm:ss',
                                     }}
                                 />
                             }
