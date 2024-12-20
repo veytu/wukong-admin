@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, Space, Tabs, TabsProps, Typography, Image, Flex, InputNumber, message } from 'antd';
 import styles from '../index.less'
 import QRCode from 'qrcode';
+import { DownloadOutlined } from '@ant-design/icons';
 
 
 export type UpdateFormProps = {
@@ -64,7 +65,7 @@ const TeacherTabContent: React.FC<JoinRoomProps> = (props) => {
             values[0]?.joinUrl &&
             <Button.Group>
               <Button variant="filled" color="default" size='small' onClick={() => copyThat(values[0].joinUrl)}>复制</Button>
-              <Button variant="solid" color="default" size='small' onClick={() => openUrl(values[0].joinUrl)}>打开</Button>
+              <Button variant="solid" color="primary" size='small' onClick={() => openUrl(values[0].joinUrl)}>打开</Button>
             </Button.Group>
           }
         </Space>
@@ -98,7 +99,7 @@ const StudentTabContent: React.FC<JoinRoomProps> = (props) => {
           {
             values?.joinUrl && <Button.Group>
               <Button variant="filled" color="default" size='small' onClick={() => copyThat(values.joinUrl)}>复制</Button>
-              <Button variant="solid" color="default" size='small' onClick={() => openUrl(values.joinUrl)}>打开</Button>
+              <Button variant="solid" color="primary" size='small' onClick={() => openUrl(values.joinUrl)}>打开</Button>
             </Button.Group>
           }
         </Space>
@@ -118,7 +119,7 @@ const StudentTabContent: React.FC<JoinRoomProps> = (props) => {
         <Flex vertical={true}>
           <Image width={104} height={104}
             src={generateQRCode(values?.joinUrl)} />
-          <Text>扫码观看</Text>
+          <Flex align="center" justify="center"><Text>扫码观看</Text><DownloadOutlined /></Flex>
         </Flex>
       </Flex>
     </Space>
@@ -136,7 +137,7 @@ const ListenerTabContent: React.FC<JoinRoomProps> = (props) => {
           {
             values?.joinUrl && <Button.Group>
               <Button variant="filled" color="default" size='small' onClick={() => copyThat(values.joinUrl)}>复制</Button>
-              <Button variant="solid" color="default" size='small' onClick={() => openUrl(values.joinUrl)}>打开</Button>
+              <Button variant="solid" color="primary" size='small' onClick={() => openUrl(values.joinUrl)}>打开</Button>
             </Button.Group>
           }
         </Space>
@@ -153,10 +154,10 @@ const ListenerTabContent: React.FC<JoinRoomProps> = (props) => {
           </Space>
 
         </Space>
-        <Flex vertical={true}>
+        <Flex vertical={true} justify='center'>
           <Image width={104} height={104}
             src={generateQRCode(values?.joinUrl)} />
-          <Text>扫码观看</Text>
+          <Flex align="center" justify="center"><Text>扫码观看</Text><DownloadOutlined /></Flex>
         </Flex>
       </Flex>
     </Space>

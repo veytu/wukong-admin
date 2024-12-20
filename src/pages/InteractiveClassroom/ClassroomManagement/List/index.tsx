@@ -6,6 +6,7 @@ import { Button, Space, message, Form, RadioChangeEvent } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import UpdateForm from './components/ViewInformation';
 import { queryList, addClassRoom } from '../service';
+import dayjs from 'dayjs';
 
 const TableList: React.FC = () => {
     const [messageApi, contextHolder] = message.useMessage();
@@ -14,8 +15,9 @@ const TableList: React.FC = () => {
     const [currentRow, setCurrentRow] = useState<ClassroomManagement.ClassroomManagementMockData>();
     const [auditorDisabled, setAuditorDisabled] = useState(false)
     const [studentDisabled, setStudentDisabled] = useState(false)
-    const [showData, setShowData] = useState({pageSize:10,currentPage:1})
-    const [value, setValue] = useState('1');
+    const [studentTip, setStudentTip] = useState(false)
+    const [auditorTip, setAuditorTip] = useState(false)
+    const [endTime, setEndTime] = useState('1');
     const actionRef = useRef<ActionType>();
     const intl = useIntl();
     const [form] = Form.useForm();
@@ -79,6 +81,11 @@ const TableList: React.FC = () => {
             hideInTable: true,
         },
         {
+            title: '教室类型',
+            dataIndex: 'roomTypeName',
+            search: false,
+        },
+        {
             title: '开始时间',
             dataIndex: 'startTime',
             valueType: 'dateTime',
@@ -91,14 +98,10 @@ const TableList: React.FC = () => {
             search: false,
         },
         {
-            title: '教室类型',
-            dataIndex: 'roomTypeName',
-            search: false,
-        },
-        {
             title: "操作",
             dataIndex: 'option',
             valueType: 'option',
+            width: 120,
             render: (_, record) => [
                 <a
                     key="config"
@@ -123,8 +126,25 @@ const TableList: React.FC = () => {
     ];
 
     const handleAdd = async (fields: ClassroomManagement.addClassRoom) => {
+        const studentValue = fields.studentCode
+        const auditorValue = fields.auditorCode
+        const isStudentValue = studentValue === null || studentValue === undefined || studentValue === ''
+        const isAuditorValue = auditorValue === null || auditorValue === undefined || auditorValue === ''
+        if (isStudentValue && !studentDisabled) {
+            setStudentTip(true)
+            return false
+        } {
+            setStudentTip(false)
+        }
+        if (isAuditorValue && !auditorDisabled) {
+            setAuditorTip(true)
+            return false
+        } else {
+            setAuditorTip(false)
+        }
         const hide = messageApi.loading('正在添加');
         try {
+
             let endTime = 0, afterTime = fields.afterTime!
             if (fields.selectEndTime === '1') {
                 endTime = new Date(fields.startTime).getTime() + afterTime * 60 * 1000
@@ -144,6 +164,7 @@ const TableList: React.FC = () => {
                     "5": fields.auditorCode
                 }
             }
+
             const result = await addClassRoom({ ...submitData });
             hide();
             messageApi.success(result.message);
@@ -156,7 +177,7 @@ const TableList: React.FC = () => {
     };
 
     const onChangeEndTime = (e: RadioChangeEvent) => {
-        setValue(e.target.value);
+        setEndTime(e.target.value);
     }
 
     const handleWatch = (e: RadioChangeEvent) => {
@@ -175,11 +196,15 @@ const TableList: React.FC = () => {
         setAuditorDisabled(isChecked)
     }
 
-    useEffect(()=>{
-        if(createModalOpen){
+    useEffect(() => {
+        if (createModalOpen) {
             form.resetFields();
+            setStudentTip(false)
+            setAuditorTip(false)
+            setEndTime('1')
         }
-    },[createModalOpen])
+    }, [createModalOpen])
+
 
     return (
         <PageContainer>
@@ -190,6 +215,7 @@ const TableList: React.FC = () => {
                     defaultMessage: 'Enquiry form',
                 })}
                 size="small"
+                scroll={{ x: 1000 }}
                 actionRef={actionRef}
                 rowKey="roomId"
                 search={{
@@ -197,11 +223,8 @@ const TableList: React.FC = () => {
                     defaultCollapsed: false,
                 }}
                 pagination={{
-                    pageSize: showData.pageSize,
-                    current: showData.currentPage,
-                    showSizeChanger: true,  // 显示每页条数的切换器
-                    pageSizeOptions: ['10', '20', '50'],  // 可选的每页条数
-                    showTotal: (total) => `共 ${total} 条`,  // 显示总条数
+                    defaultPageSize: 10,
+                    showSizeChanger: false,
                 }}
                 options={{
                     setting: false,
@@ -219,16 +242,7 @@ const TableList: React.FC = () => {
                     </Button>,
                 ]}
                 dateFormatter='number'
-                request={async (params) => {
-                    // 通过传入的 params 获取分页信息
-                    //@ts-ignore
-                    const result = await queryList({...params,pageIndex:params.current});
-                    //@ts-ignore
-                    setShowData(result)
-                    //@ts-ignore
-                    result.total = result.totalCount
-                    return result;
-                  }}
+                request={queryList}
                 columns={columns}
             />
             {/* 新建 */}
@@ -239,6 +253,14 @@ const TableList: React.FC = () => {
                 form={form}
                 open={createModalOpen}
                 onOpenChange={handleModalOpen}
+                initialValues={{
+                    startTime: dayjs(),
+                    teacherCode: Math.floor(1000 + Math.random() * 9000),
+                    assistantCode: Math.floor(1000 + Math.random() * 9000),
+                    patrolCode: Math.floor(1000 + Math.random() * 9000),
+                    studentCode: Math.floor(1000 + Math.random() * 9000),
+                    auditorCode: Math.floor(1000 + Math.random() * 9000)
+                }}
                 onFinish={async (value) => {
                     const success = await handleAdd(value as ClassroomManagement.addClassRoom);
                     if (success) {
@@ -260,13 +282,14 @@ const TableList: React.FC = () => {
                     <ProFormDateTimePicker
                         fieldProps={{
                             format: 'YYYY-MM-DD HH:mm:ss',
+                            defaultValue: dayjs()
                         }}
                     />
                 </ProForm.Item>
                 <ProForm.Item label="结束时间" rules={[{ required: true, message: "请选择结束时间" }]}>
                     <Space>
                         <>
-                            {value === '1' ?
+                            {endTime === '1' ?
                                 <ProFormSelect style={{ width: '200px' }}
                                     initialValue={45}
                                     name="afterTime"
@@ -299,19 +322,18 @@ const TableList: React.FC = () => {
                     <Space>
                         <ProFormDigit name="teacherCode" fieldProps={{
                             addonBefore: '老师',
-                            defaultValue: undefined,
+                            inputMode: 'decimal',
+                            style: { appearance: 'textfield' }
                         }}
                             rules={[{ required: true, message: "请输入老师口令" }]}
                         />
                         <ProFormDigit name="assistantCode" fieldProps={{
-                            addonBefore: '助教',
-                            defaultValue: undefined,
+                            addonBefore: '助教'
                         }}
                             rules={[{ required: true, message: "请输入助教口令" }]}
                         />
                         <ProFormDigit name="patrolCode" fieldProps={{
-                            addonBefore: '巡课',
-                            defaultValue: undefined,
+                            addonBefore: '巡课'
                         }}
                             rules={[{ required: true, message: "请输入巡课口令" }]}
                         />
@@ -321,20 +343,20 @@ const TableList: React.FC = () => {
                     <Space>
                         <ProFormDigit name="studentCode" fieldProps={{
                             addonBefore: '学生',
-                            defaultValue: undefined,
                             disabled: studentDisabled
                         }}
                         />
-                        <ProFormCheckbox fieldProps={{ onChange: handleWatch }}>
+                        <ProFormCheckbox fieldProps={{ onChange: handleWatch }} >
                             无限制观看
                         </ProFormCheckbox>
                     </Space>
+                    {studentTip && <div style={{ 'color': 'red' }}>请选择学生口令</div>}
                 </ProForm.Item>
                 <ProForm.Item label="旁听生口令" >
+
                     <Space>
                         <ProFormDigit name="auditorCode" fieldProps={{
                             addonBefore: '旁听生',
-                            defaultValue: undefined,
                             disabled: auditorDisabled,
                         }}
                         />
@@ -342,6 +364,7 @@ const TableList: React.FC = () => {
                             无限制观看
                         </ProFormCheckbox>
                     </Space>
+                    {auditorTip && <div style={{ 'color': 'red' }}>请选择旁听生口令</div>}
                 </ProForm.Item>
             </ModalForm>
             {/* 模板选择 */}

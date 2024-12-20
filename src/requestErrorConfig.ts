@@ -126,7 +126,7 @@ export const errorConfig: RequestConfig = {
       response.data = {
         ...response.data,
         ...data.data,
-        ...(data?.data?.sumCount !== undefined && { total: data?.data?.sumCount }),
+        ...(data?.data?.totalCount !== undefined && { total: data?.data?.totalCount }),
         ...(data?.code !== undefined && { success: data.code === 200 ? true : false }),
         ...(data?.message && { errorMessage: data?.message }),
       };

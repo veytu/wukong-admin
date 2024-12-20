@@ -58,7 +58,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
       },
     },
-    footerRender: () => <Footer />,
+    // footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
       // 如果没有用户信息，并且不是登录页，则跳转到登录页
