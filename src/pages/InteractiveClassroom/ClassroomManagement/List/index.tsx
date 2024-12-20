@@ -17,6 +17,7 @@ const TableList: React.FC = () => {
     const [studentDisabled, setStudentDisabled] = useState(false)
     const [studentTip, setStudentTip] = useState(false)
     const [auditorTip, setAuditorTip] = useState(false)
+    const [entTimeTip, setAntTimeTip] = useState(false)
     const [roomStatus, setRoomStatus] = useState('1')
     const [endTime, setEndTime] = useState('1');
     const actionRef = useRef<ActionType>();
@@ -153,7 +154,7 @@ const TableList: React.FC = () => {
     const checkUniqueGroups = (groups: any) => {
         const seen = new Set();
         for (const group of groups) {
-            const groupStr = group.toString();
+            const groupStr = group?.toString();
             if (seen.has(groupStr)) {
                 return false;
             }
@@ -179,6 +180,12 @@ const TableList: React.FC = () => {
             return false
         } else {
             setAuditorTip(false)
+        }
+        if (!fields.afterTime && !fields.endTime) {
+            setAntTimeTip(true)
+            return false
+        } else {
+            setAntTimeTip(false)
         }
         const unique = checkUniqueGroups([fields.teacherCode, fields.assistantCode, fields.patrolCode, fields.studentCode, fields.auditorCode])
         if (!unique) {
@@ -361,6 +368,7 @@ const TableList: React.FC = () => {
                             ]}
                         />
                     </Space>
+                    {entTimeTip && <div style={{ 'color': 'red' }}>请选择结束时间</div>}
                 </ProForm.Item>
                 <ProForm.Item label="教室口令">
                     <Space>
